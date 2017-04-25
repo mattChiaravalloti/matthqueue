@@ -1,3 +1,5 @@
+require 'securerandom'
+
 class InstitutionsController < ApplicationController
   before_action :set_institution, only: [:show, :edit, :update, :destroy]
 
@@ -21,8 +23,10 @@ class InstitutionsController < ApplicationController
 
   # POST /institutions
   def create
-    @institution = Institution.new(institution_params)
-    @institution.password = institution_params[:password_hash]
+    params = institution_params
+    params[:secret] = SecureRandom.hex
+    @institution = Institution.new(params)
+    @institution.password = params[:password_hash]
 
     if @institution.save
       redirect_to @institution, notice: 'Institution was successfully created.'
@@ -54,6 +58,6 @@ class InstitutionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def institution_params
-      params.require(:institution).permit(:name, :password_hash, :secret, :email_regex)
+      params.require(:institution).permit(:name, :password_hash, :email_regex)
     end
 end

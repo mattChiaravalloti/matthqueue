@@ -1,7 +1,7 @@
-<%= form_for(institution) do |f| %>
+<%= form_for @institution, :html => {:class => 'form-horizontal', :style => 'width:50%'} do |f| %>
   <% if institution.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(institution.errors.count, "error") %> prohibited this institution from being saved:</h2>
+    <div id='error_explanation'>
+      <h2><%= pluralize(institution.errors.count, 'error') %> prohibited this institution from being saved:</h2>
 
       <ul>
       <% institution.errors.full_messages.each do |message| %>
@@ -11,27 +11,30 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :name %>
-    <%= f.text_field :name %>
+  <div class='form-group'>
+    <%= f.label :name, 'Institution Name:', class: 'col-md-2 control-label' %>
+    <div class='col-md-10'>
+      <%= f.text_field :name, class: 'form-control' %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label :password %>
-    <%= f.text_field :password_hash %>
+  <div class='form-group'>
+    <%= f.label :password, 'Password:', class: 'col-md-2 control-label' %>
+    <div class='col-md-10'>
+      <%= f.text_field :password_hash, class: 'form-control' %>
+    <p class="text-left help-block">Required in case an administrator would like to edit or delete this institution later.</p>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label :secret %>
-    <%= f.text_field :secret %>
+  <div class='form-group'>
+    <%= f.label :email_regex, 'Email Domain:', class: 'col-md-2 control-label' %>
+    <div class='col-md-10'>
+      <%= f.text_field :email_regex, class: 'form-control' %>
+    <p class="text-left help-block">Accounts with emails ending in this domain are allowed to register with this institution. For example, "upenn.edu" would allow user@upenn.edu and user@seas.upenn.edu to register.</p>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label :email_regex %>
-    <%= f.text_field :email_regex %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit %>
+  <div class='actions'>
+    <%= f.submit 'Submit', class: 'btn btn-default btn-primary' %>
   </div>
 <% end %>
