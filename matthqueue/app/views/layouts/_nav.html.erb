@@ -1,0 +1,12 @@
+<nav class="nav-banner">
+  <a class="nav-btn" href="/">Home</a>
+  <% if logged_in? %>
+    <%= link_to current_account.name, current_account %>
+    <%= link_to 'Sign out', logout_path, :method => :delete %>
+  <% else %>
+    <a class="nav-btn" href="/login">Sign in</a>
+    <a class="nav-btn" href="/accounts/new">Sign up</a>
+  <% end %>
+  <span class="nav-sessions">
+  </span>
+</nav>

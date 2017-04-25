@@ -1,0 +1,37 @@
+<%= form_for(institution) do |f| %>
+  <% if institution.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(institution.errors.count, "error") %> prohibited this institution from being saved:</h2>
+
+      <ul>
+      <% institution.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password %>
+    <%= f.text_field :password_hash %>
+  </div>
+
+  <div class="field">
+    <%= f.label :secret %>
+    <%= f.text_field :secret %>
+  </div>
+
+  <div class="field">
+    <%= f.label :email_regex %>
+    <%= f.text_field :email_regex %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
