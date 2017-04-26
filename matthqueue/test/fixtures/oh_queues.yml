@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  active: false
+  course: one
+  start_time: 2017-04-26 03:45:25
+  end_time: 2017-04-26 03:45:25
+  num_tas: 
+
+two:
+  active: false
+  course: two
+  start_time: 2017-04-26 03:45:25
+  end_time: 2017-04-26 03:45:25
+  num_tas: 
