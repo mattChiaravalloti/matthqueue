@@ -29,6 +29,7 @@ class InstitutionsController < ApplicationController
     @institution.password = params[:password_hash]
 
     if @institution.save
+      session[:institution_id] = @institution.id
       redirect_to @institution, notice: 'Institution was successfully created.'
     else
       render :new
