@@ -4,8 +4,10 @@ class Question < ApplicationRecord
   belongs_to :resolver, class_name: 'Account', optional: true
 
   def wait_time
-    -1 if self.status != 'resolved'
-
-    self.resolve_time - self.created_at
+    if self.status != 'resolved'
+      -1
+    else
+      self.resolve_time - self.created_at
+    end
   end
 end
