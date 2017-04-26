@@ -27,8 +27,8 @@ class Account < ApplicationRecord
   has_many :instructed_courses, :through => :lectures, :source => :course
 
   # questions
-  has_many :questions, :through => enrolled_courses
-  has_many :answers, :through => instructed_courses, :source => :question
+  has_many :questions, :through => :enrolled_courses
+  has_many :answers, :through => :instructed_courses, :source => :question
 
   def email_regex
     err = 'email not permitted by institution'
