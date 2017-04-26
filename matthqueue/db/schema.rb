@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170426043243) do
+ActiveRecord::Schema.define(version: 20170426074920) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "name"
@@ -49,6 +49,34 @@ ActiveRecord::Schema.define(version: 20170426043243) do
     t.string   "email_regex"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+  end
+
+  create_table "oh_queues", force: :cascade do |t|
+    t.boolean  "active"
+    t.integer  "last_position"
+    t.integer  "course_id"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.integer  "num_tas"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["course_id"], name: "index_oh_queues_on_course_id"
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.string   "title"
+    t.text     "body"
+    t.integer  "queue_id"
+    t.integer  "position"
+    t.integer  "student_id"
+    t.integer  "resolver_id"
+    t.string   "status"
+    t.datetime "resolve_time"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["queue_id"], name: "index_questions_on_queue_id"
+    t.index ["resolver_id"], name: "index_questions_on_resolver_id"
+    t.index ["student_id"], name: "index_questions_on_student_id"
   end
 
 end

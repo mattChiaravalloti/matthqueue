@@ -19,4 +19,6 @@ class Course < ApplicationRecord
     class_name: 'AccountsCourse'
   )
   has_many :instructors, :through => :lecturers, :source => :account
+
+  has_many :questions
 end
