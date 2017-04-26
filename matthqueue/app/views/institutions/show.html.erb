@@ -1,24 +1,24 @@
-<p id="notice"><%= notice %></p>
+<% if admin_logged_in? && @institution.id == current_institution.id %>
+  <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @institution.name %>
-</p>
-
-<p>
-  <strong>Password:</strong>
-  <%= @institution.password %>
-</p>
-
-<p>
-  <strong>Secret:</strong>
-  <%= @institution.secret %>
-</p>
-
-<p>
-  <strong>Email regex:</strong>
-  <%= @institution.email_regex %>
-</p>
-
-<%= link_to 'Edit', edit_institution_path(@institution) %> |
-<%= link_to 'Back', institutions_path %>
+  <div class="panel panel-info" style="width:50%;margin:auto">
+    <div class="panel-heading">Institution data for <strong><%= @institution.name %></strong></div>
+    <div class="panel-body">
+      <p>
+        <strong>Name:</strong> <%= @institution.name %>
+      </p>
+      <p>
+        <strong>Secret:</strong> <%= @institution.secret %>
+      </p>
+      <p>
+        <strong>Email regex:</strong> <%= @institution.email_regex %>
+      </p>
+      <hr>
+      <%= link_to 'Edit', edit_institution_path(@institution) %> |
+      <%= link_to 'Destroy', @institution, method: :delete, data: { confirm: 'Are you sure?' } %>
+    </div>
+  </div>
+<% else %>
+  <p>To view this institution, please sign in with its administrative credentials:</p>
+  <%= link_to 'Admin Sign In', admin_login_path %>
+<% end %>

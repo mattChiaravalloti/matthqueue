@@ -1,0 +1,21 @@
+<h1 id="log_in" class="welcome-banner text-center">Sign In as Institution Admin</h1>
+<hr width="50%">
+
+<center>
+  <%= form_tag(admin_login_path, method: 'post', class: 'form-horizontal',  style: 'width:50%') do %>
+    <div class='form-group'>
+      <%= label_tag :name, 'Name:', class: 'col-md-3 control-label' %>
+      <div class='col-md-9'>
+        <%= text_field_tag :name, nil, class: 'form-control' %>
+      </div>
+    </div>
+
+    <div class='form-group'>
+      <%= label_tag :password, 'Password:', class: 'col-md-3 control-label' %>
+      <div class='col-md-9'>
+        <%= password_field_tag :password, nil, class: 'form-control' %>
+      </div>
+    </div>
+    <%= submit_tag 'Admin Sign in' %>
+  <% end %>
+</center>

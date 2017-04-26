@@ -1,13 +1,16 @@
 <%= form_for @institution, :html => {:class => 'form-horizontal', :style => 'width:50%'} do |f| %>
   <% if @institution.errors.any? %>
-    <div id='error_explanation'>
-      <h2><%= pluralize(@institution.errors.count, 'error') %> prohibited this institution from being saved:</h2>
-
-      <ul>
-      <% @institution.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+    <div class="panel panel-danger">
+      <div class="panel-heading">
+        <%= pluralize(@institution.errors.count, "error") %> prohibited this institution from being saved:
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @institution.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
     </div>
   <% end %>
 
@@ -21,8 +24,10 @@
   <div class='form-group'>
     <%= f.label :password, 'Password:', class: 'col-md-2 control-label' %>
     <div class='col-md-10'>
-      <%= f.text_field :password_hash, class: 'form-control' %>
-    <p class="text-left help-block">Required in case an administrator would like to edit or delete this institution later.</p>
+      <%= f.password_field :password_hash, value: nil, class: 'form-control' %>
+    <p class="text-left help-block">For Institution creation, add a password so an admin can later
+      edit or destroy the institution. For instution editing, include the password to confirm the
+      updates to name or email domain.</p>
     </div>
   </div>
 

@@ -8,4 +8,12 @@ class ApplicationController < ActionController::Base
   helper_method def current_account
     Account.find(session[:account_id])
   end
+
+  helper_method def admin_logged_in?
+    !session[:institution_id].nil?
+  end
+
+  helper_method def current_institution
+    Institution.find(session[:institution_id])
+  end
 end

@@ -1,33 +1,28 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Institutions</h1>
+<h1 class="welcome-banner text-center">Institutions</h1>
+<hr width="50%">
 
-<table>
+<table class="table table-hover" style="width:50%;margin:auto">
   <thead>
     <tr>
+      <th>#</th>
       <th>Name</th>
-      <th>Password</th>
-      <th>Secret</th>
-      <th>Email regex</th>
-      <th colspan="3"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @institutions.each do |institution| %>
       <tr>
-        <td><%= institution.name %></td>
-        <td><%= institution.password %></td>
-        <td><%= institution.secret %></td>
-        <td><%= institution.email_regex %></td>
-        <td><%= link_to 'Show', institution %></td>
-        <td><%= link_to 'Edit', edit_institution_path(institution) %></td>
-        <td><%= link_to 'Destroy', institution, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= institution.id %></td>
+        <td><%= link_to institution.name, institution %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
-<%= link_to 'New Institution', new_institution_path %>
+<hr width="50%">
+<div style="width:50%;margin:auto">
+  <%= link_to 'New Institution', new_institution_path, class: 'btn btn-primary' %>
+</div>

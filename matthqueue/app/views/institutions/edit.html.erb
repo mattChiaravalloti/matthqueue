@@ -1,6 +1,18 @@
-<h1>Editing Institution</h1>
+<% if admin_logged_in? && @institution.id == current_institution.id %>
+  <% if defined?(@error) %>
+    <div class="panel panel-danger">
+      <div class="panel-heading">Problem Editing Institution</div>
+      <div class="panel-body"><%= @error %></div>
+    </div>
+  <% end %>
 
-<%= render 'form', institution: @institution %>
-
-<%= link_to 'Show', @institution %> |
-<%= link_to 'Back', institutions_path %>
+  <h1 class="welcome-banner text-center">Editing Institution
+    - <%= link_to "#{@institution.name}", @institution %> -</h1>
+  <hr width="50%">
+  <center>
+    <%= render 'form', institution: @institution %>
+  </center>
+<% else %>
+  <p>To edit this institution, please sign in with its administrative credentials:</p>
+  <%= link_to 'Admin Sign In', admin_login_path %>
+<% end %>

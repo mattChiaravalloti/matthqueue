@@ -37,9 +37,16 @@ class InstitutionsController < ApplicationController
 
   # PATCH/PUT /institutions/1
   def update
-    if @institution.update(institution_params)
-      redirect_to @institution, notice: 'Institution was successfully updated.'
+    if @institution.password == institution_params[:password_hash]
+      params = institution_params
+      params.delete(:password_hash)
+      if @institution.update(params)
+        redirect_to @institution, notice: 'Institution was successfully updated.'
+      else
+        render :edit
+      end
     else
+      @error = 'Incorrect password'
       render :edit
     end
   end
