@@ -18,7 +18,8 @@
         <td><%= course.students.length %></td>
         <td><%= course.instructors.length %></td>
         <% if droppable %>
-          <td><p class="drop-button btn-link" course-id="<%= course.id%>" account-id="<%= account.id%>">
+          <td>
+            <p class="drop-button btn-link" course-id="<%= course.id%>" account-id="<%= account.id%>">
             Drop</p>
           </td>
         <% elsif destroyable %>

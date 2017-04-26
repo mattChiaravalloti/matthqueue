@@ -1,16 +1,68 @@
-<p id="notice"><%= notice %></p>
+<% if logged_in? %>
+  <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @course.name %>
-</p>
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <h3><%= @course.name %></h3>
+      <hr>
+    </div>
+  </div>
 
-<p>
-  <strong>Institution:</strong>
-  <%= @course.institution.name %>
-</p>
+  <% if @course.instructors.include? current_account %>
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-4">
+        <div class="panel panel-info">
+          <div class="panel-heading">Course Info</div>
+          <div class="panel-body" style="height:200px;overflow-y:scroll">
+            <p>
+              <strong>Name:</strong> <%= @course.name %>
+            </p>
 
-<p>
-  <strong>Semester:</strong>
-  <%= @course.semester %>
-</p>
+            <p>
+              <strong>Institution:</strong> <%= @course.institution.name %>
+            </p>
+
+            <p>
+              <strong>Semester:</strong> <%= @course.semester %>
+            </p>
+
+            <% if current_account.professor %>
+              <%= link_to 'Destroy', @course, method: :delete, data: { confirm: 'Are you sure?' } %>
+            <% end %>
+
+            <hr>
+
+            <h4>Instructors:</h4>
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Role</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @course.instructors.each do |instructor| %>
+                  <tr>
+                    <td><%= instructor.name %></td>
+                    <% if instructor.professor %>
+                      <td>Professor</td>
+                    <% else %>
+                      <td>TA</td>
+                    <% end %>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% else %>
+
+  <% end %>
+<% else %>
+  <p>To view this course, please sign in:</p>
+  <%= link_to 'Sign In', login_path %>
+<% end %>
