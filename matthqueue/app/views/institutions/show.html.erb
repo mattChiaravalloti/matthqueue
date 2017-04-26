@@ -1,5 +1,6 @@
 <% if admin_logged_in? && @institution.id == current_institution.id %>
   <p id="notice"><%= notice %></p>
+  <p id="alert"><%= alert %></p>
 
   <div class="panel panel-info" style="width:50%;margin:auto">
     <div class="panel-heading">Institution data for <strong><%= @institution.name %></strong></div>

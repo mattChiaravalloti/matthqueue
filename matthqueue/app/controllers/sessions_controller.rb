@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
       session[:last_seen] = Time.now
       redirect_to @account
     else
-      redirect_to login_path
+      redirect_to login_path, alert: 'Authentication failed!'
     end
   end
 
@@ -30,7 +30,7 @@ class SessionsController < ApplicationController
       session[:admin_last_seen] = Time.now
       redirect_to @institution
     else
-      redirect_to admin_login_path
+      redirect_to admin_login_path, alert: 'Authentication failed!'
     end
   end
 end

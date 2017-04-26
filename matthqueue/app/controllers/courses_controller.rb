@@ -14,7 +14,7 @@ class CoursesController < ApplicationController
     if @course.save && @account.save
       redirect_to @course, notice: 'Course was successfully created.'
     else
-      redirect_to @account, notice: 'Course was not created!'
+      redirect_to @account, alert: 'Course was not created!'
     end
   end
 
@@ -30,7 +30,7 @@ class CoursesController < ApplicationController
     if @course.save && @account.save
       redirect_to @course, notice: "#{@account.name} successfully enrolled."
     else
-      redirect_to @account, notice: 'Problem with enrollment!'
+      redirect_to @account, alert: 'Problem with enrollment!'
     end
   end
 
@@ -51,6 +51,9 @@ class CoursesController < ApplicationController
 
     redirect_to @course,
                 notice: "Successfully added #{@account.name} as instructor."
+  rescue
+    redirect_to @course,
+                alert: "Unable to add instructor!"
   end
 
   # DELETE /courses/1
