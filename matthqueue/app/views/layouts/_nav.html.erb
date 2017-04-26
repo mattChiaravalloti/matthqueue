@@ -14,8 +14,8 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="#">Home</a></li>
         <% if logged_in? %>
+          <li><%= link_to 'Home', current_account %></li>
           <li><%= link_to current_account.name, current_account %></li>
         <% else %>
           <li><a class="nav-btn" href="/login">Sign in</a></li>
