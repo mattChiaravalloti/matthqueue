@@ -1,0 +1,17 @@
+<div class="panel panel-info">
+  <div class="panel-heading">Account Info</div>
+  <div class="panel-body">
+    <p>
+      <strong>Name:</strong> <%= account.name %>
+    </p>
+    <p>
+      <strong>Email:</strong> <%= account.email %>
+    </p>
+    <p>
+      <strong>Institution:</strong> <%= account.institution.name %>
+    </p>
+    <hr>
+    <%= link_to 'Edit', edit_account_path(account) %> |
+    <%= link_to 'Destroy', account, method: :delete, data: { confirm: 'Are you sure?' } %>
+  </div>
+</div>

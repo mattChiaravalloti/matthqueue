@@ -14,23 +14,7 @@
       <div class="col-md-1">
       </div>
       <div class="col-md-4">
-        <div class="panel panel-info">
-          <div class="panel-heading">Account Info</div>
-          <div class="panel-body">
-            <p>
-              <strong>Name:</strong> <%= @account.name %>
-            </p>
-            <p>
-              <strong>Email:</strong> <%= @account.email %>
-            </p>
-            <p>
-              <strong>Institution:</strong> <%= @account.institution.name %>
-            </p>
-            <hr>
-            <%= link_to 'Edit', edit_account_path(@account) %> |
-            <%= link_to 'Destroy', @account, method: :delete, data: { confirm: 'Are you sure?' } %>
-          </div>
-        </div>
+        <%= render 'info', account: @account %>
       </div>
       <div class="col-md-1">
       </div>
@@ -107,23 +91,7 @@
       <div class="col-md-1">
       </div>
       <div class="col-md-4">
-        <div class="panel panel-info">
-          <div class="panel-heading">Account Info</div>
-          <div class="panel-body">
-            <p>
-              <strong>Name:</strong> <%= @account.name %>
-            </p>
-            <p>
-              <strong>Email:</strong> <%= @account.email %>
-            </p>
-            <p>
-              <strong>Institution:</strong> <%= @account.institution.name %>
-            </p>
-            <hr>
-            <%= link_to 'Edit', edit_account_path(@account) %> |
-            <%= link_to 'Destroy', @account, method: :delete, data: { confirm: 'Are you sure?' } %>
-          </div>
-        </div>
+        <%= render 'info', account: @account %>
       </div>
       <div class="col-md-1">
       </div>
@@ -131,7 +99,7 @@
         <div class="panel panel-default">
           <div class="panel-heading">Enrolled Courses</div>
           <div class="panel-body">
-            coming soon...
+            <%= render 'courses/table', courses: @account.enrolled_courses %>
           </div>
         </div>
       </div>
@@ -143,12 +111,14 @@
       <div class="col-md-1">
       </div>
       <div class="col-md-4">
-        <div class="panel panel-success">
-          <div class="panel-heading">Instructed Courses</div>
-          <div class="panel-body">
-            coming soon...
+        <% if @account.instructed_courses.length != 0 %>
+          <div class="panel panel-success">
+            <div class="panel-heading">Instructed Courses</div>
+            <div class="panel-body">
+              <%= render 'courses/table', courses: @account.instructed_courses %>
+            </div>
           </div>
-        </div>
+        <% end %>
       </div>
       <div class="col-md-1">
       </div>
