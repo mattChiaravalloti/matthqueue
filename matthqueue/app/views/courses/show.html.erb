@@ -43,6 +43,21 @@
           </div>
         </div>
       </div>
+      <div class="col-md-5">
+        <div class="panel panel-default">
+          <div class="panel-heading">Office Hours Timeslots</div>
+          <div class="panel-body">
+            <%= form_tag(add_instructor_course_path, method: 'post', class: '', style: 'margin:auto;width:90%') do %>
+              <div class="form-group">
+                <%= datetime_local_field :instructor_email, nil, class: 'form-control' %>
+              </div>
+              <div class="form-group">
+                <%= submit_tag 'Add Instructor', class: 'btn btn-default' %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="row">

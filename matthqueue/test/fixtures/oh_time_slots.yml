@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  frequency: MyString
+  start_time: 2017-04-26 14:19:04
+  end_time: 2017-04-26 14:19:04
+  course: one
+  avg_wait_time: 1
+
+two:
+  frequency: MyString
+  start_time: 2017-04-26 14:19:04
+  end_time: 2017-04-26 14:19:04
+  course: two
+  avg_wait_time: 1
