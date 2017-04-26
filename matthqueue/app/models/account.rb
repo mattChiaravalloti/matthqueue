@@ -9,10 +9,27 @@ class Account < ApplicationRecord
   validate :email_regex
 
   belongs_to :institution
+  has_many :accounts_courses
+
+  # enable get all enrolled courses via account.enrolled_courses (this is a list
+  # of Courses)
+  has_many(:enrollments,
+    -> {where(student: true)},
+    class_name: 'AccountsCourse'
+  )
+  has_many :enrolled_courses, :through => :enrollments, :source => :course
+
+  # enable get all instructed courses via account.instructed_courses
+  has_many(:lectures,
+    -> {where(student: false)},
+    class_name: 'AccountsCourse'
+  )
+  has_many :instructed_courses, :through => :lectures, :source => :course
 
   def email_regex
     err = 'email not permitted by institution'
-    errors.add(:email, err) unless !institution.nil? && email.end_with?(institution.email_regex)
+    valid = !institution.nil? && email.end_with?(institution.email_regex)
+    errors.add(:email, err) unless valid
   end
 
   def password
