@@ -13,7 +13,11 @@ Rails.application.routes.draw do
   post 'admin_login' => 'sessions#create_admin'
 
   # courses
-  resources :courses, only: [:show, :destroy]
+  resources :courses, only: [:show, :destroy] do
+    member do
+      post :add_instructor
+    end
+  end
   post 'create_course' => 'courses#create'
   post 'enroll_course' => 'courses#enroll'
   post 'drop_course' => 'courses#drop'

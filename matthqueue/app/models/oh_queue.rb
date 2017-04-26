@@ -1,6 +1,8 @@
 class OhQueue < ApplicationRecord
   belongs_to :course
   has_many :questions
+  has_many :students, through: :questions
+  has_many :resolvers, through: :questions
 
   def avg_wait_time
     sum = 0

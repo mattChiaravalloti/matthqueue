@@ -1,5 +1,5 @@
 class CoursesController < ApplicationController
-  before_action :set_course, only: [:show, :destroy]
+  before_action :set_course, only: [:show, :add_instructor, :destroy]
 
   # GET /courses/1
   def show
@@ -18,7 +18,7 @@ class CoursesController < ApplicationController
     end
   end
 
-  # POST /courses
+  # POST /enroll_course
   def enroll
     @course = Course.where(:name=>course_params[:name])
                     .where(:semester=>course_params[:semester])
@@ -34,14 +34,23 @@ class CoursesController < ApplicationController
     end
   end
 
-  # DELETE /courses
+  # POST /drop_course
   def drop
     @course = Course.find(params[:course_id])
     @account = Account.find(params[:student_id])
 
     @account.enrolled_courses.delete(@course)
 
-    redirect_to @account, notice: "successfully dropped #{@course.name}."
+    redirect_to @account, notice: "Successfully dropped #{@course.name}."
+  end
+
+  # POST /courses/1/add_instructor
+  def add_instructor
+    @account = Account.find_by(:email=>params[:instructor_email])
+    @account.instructed_courses << @course
+
+    redirect_to @course,
+                notice: "Successfully added #{@account.name} as instructor."
   end
 
   # DELETE /courses/1

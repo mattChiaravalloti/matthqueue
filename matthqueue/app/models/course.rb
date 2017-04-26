@@ -39,4 +39,12 @@ class Course < ApplicationRecord
       0
     end
   end
+
+  def professors
+    self.instructors.where(:professor=>true)
+  end
+
+  def tas
+    self.instructors.where(:professor=>false)
+  end
 end

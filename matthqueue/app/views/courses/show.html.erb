@@ -15,7 +15,7 @@
       <div class="col-md-4">
         <div class="panel panel-info">
           <div class="panel-heading">Course Info</div>
-          <div class="panel-body" style="height:200px;overflow-y:scroll">
+          <div class="panel-body">
             <p>
               <strong>Name:</strong> <%= @course.name %>
             </p>
@@ -26,19 +26,36 @@
               <strong>Semester:</strong> <%= @course.semester %>
             </p>
             <p>
+              <strong># of Students:</strong> <%= @course.students.length %>
+            </p>
+            <p>
               <strong># of Past Queues:</strong> <%= @course.oh_queues.length %>
             </p>
             <p>
-              <strong>Avg. Wait Time:</strong> <%= @course.avg_wait_time %>
+              <strong>Avg. Wait Time (m):</strong> <%= @course.avg_wait_time / 60 %>
             </p>
 
+            <hr>
             <% if current_account.professor %>
               <%= link_to 'Destroy', @course, method: :delete, data: { confirm: 'Are you sure?' } %>
             <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
 
-            <hr>
-
-            <h4>Instructors:</h4>
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-4">
+        <div class="panel panel-success">
+          <div class="panel-heading">
+            Instructors -
+            <small>
+              <%= pluralize(@course.professors.length, 'Professor') %>  |
+              <%= pluralize(@course.tas.length, 'TA', 'TAs') %>
+            </small> -
+          </div>
+          <div class="panel-body" style="height:200px;overflow-y:scroll">
             <table class="table table-hover">
               <thead>
                 <tr>
@@ -59,6 +76,16 @@
                 <% end %>
               </tbody>
             </table>
+          </div>
+          <div class="panel-body">
+            <%= form_tag(add_instructor_course_path, method: 'post', class: 'form-inline', style: 'margin:auto;width:90%') do %>
+              <div class="form-group">
+                <%= email_field_tag :instructor_email, nil, class: 'form-control', placeholder: 'Instructor email' %>
+              </div>
+              <div class="form-group">
+                <%= submit_tag 'Add Instructor', class: 'btn btn-default' %>
+              </div>
+            <% end %>
           </div>
         </div>
       </div>
