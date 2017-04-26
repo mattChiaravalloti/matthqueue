@@ -19,13 +19,17 @@
             <p>
               <strong>Name:</strong> <%= @course.name %>
             </p>
-
             <p>
               <strong>Institution:</strong> <%= @course.institution.name %>
             </p>
-
             <p>
               <strong>Semester:</strong> <%= @course.semester %>
+            </p>
+            <p>
+              <strong># of Past Queues:</strong> <%= @course.oh_queues.length %>
+            </p>
+            <p>
+              <strong>Avg. Wait Time:</strong> <%= @course.avg_wait_time %>
             </p>
 
             <% if current_account.professor %>

@@ -66,7 +66,7 @@ ActiveRecord::Schema.define(version: 20170426074920) do
   create_table "questions", force: :cascade do |t|
     t.string   "title"
     t.text     "body"
-    t.integer  "queue_id"
+    t.integer  "oh_queue_id"
     t.integer  "position"
     t.integer  "student_id"
     t.integer  "resolver_id"
@@ -74,7 +74,7 @@ ActiveRecord::Schema.define(version: 20170426074920) do
     t.datetime "resolve_time"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.index ["queue_id"], name: "index_questions_on_queue_id"
+    t.index ["oh_queue_id"], name: "index_questions_on_oh_queue_id"
     t.index ["resolver_id"], name: "index_questions_on_resolver_id"
     t.index ["student_id"], name: "index_questions_on_student_id"
   end
