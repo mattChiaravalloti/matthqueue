@@ -1,29 +1,126 @@
-<p id="notice"><%= notice %></p>
+<% if logged_in? && @account.id == current_account.id %>
+  <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @account.name %>
-</p>
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-9">
+      <h3><strong><%= @account.name %></strong>'s Dashboard</h3>
+      <hr>
+    </div>
+  </div>
 
-<p>
-  <strong>Email:</strong>
-  <%= @account.email %>
-</p>
+  <% if @account.professor %>
+    <div class="row">
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-4">
+        <div class="panel panel-info">
+          <div class="panel-heading">Account Info</div>
+          <div class="panel-body">
+            <p>
+              <strong>Name:</strong> <%= @account.name %>
+            </p>
+            <p>
+              <strong>Email:</strong> <%= @account.email %>
+            </p>
+            <p>
+              <strong>Institution:</strong> <%= @account.institution.name %>
+            </p>
+            <hr>
+            <%= link_to 'Edit', edit_account_path(@account) %> |
+            <%= link_to 'Destroy', @account, method: :delete, data: { confirm: 'Are you sure?' } %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">Create New Course</div>
+          <div class="panel-body">
+            coming soon...
+          </div>
+        </div>
+      </div>
+      <div class="col-md-1">
+      </div>
+    </div>
 
-<p>
-  <strong>Password:</strong>
-  <%= @account.password_hash %>
-</p>
+    <div class="row">
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-9">
+        <div class="panel panel-danger">
+          <div class="panel-heading">Instructed Courses</div>
+          <div class="panel-body">
+            coming soon...
+          </div>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <div class="row">
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-4">
+        <div class="panel panel-info">
+          <div class="panel-heading">Account Info</div>
+          <div class="panel-body">
+            <p>
+              <strong>Name:</strong> <%= @account.name %>
+            </p>
+            <p>
+              <strong>Email:</strong> <%= @account.email %>
+            </p>
+            <p>
+              <strong>Institution:</strong> <%= @account.institution.name %>
+            </p>
+            <hr>
+            <%= link_to 'Edit', edit_account_path(@account) %> |
+            <%= link_to 'Destroy', @account, method: :delete, data: { confirm: 'Are you sure?' } %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">Enrolled Courses</div>
+          <div class="panel-body">
+            coming soon...
+          </div>
+        </div>
+      </div>
+      <div class="col-md-1">
+      </div>
+    </div>
 
-<p>
-  <strong>Professor:</strong>
-  <%= @account.professor %>
-</p>
-
-<p>
-  <strong>Institution:</strong>
-  <%= @account.institution %>
-</p>
-
-<%= link_to 'Edit', edit_account_path(@account) %> |
-<%= link_to 'Back', accounts_path %>
+    <div class="row">
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-4">
+        <div class="panel panel-success">
+          <div class="panel-heading">Instructed Courses</div>
+          <div class="panel-body">
+            coming soon...
+          </div>
+        </div>
+      </div>
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-4">
+        <div class="panel panel-warning">
+          <div class="panel-heading">Enroll in New Course</div>
+          <div class="panel-body">
+            coming soon...
+          </div>
+        </div>
+      </div>
+      <div class="col-md-1">
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  <p>To view this account, please sign in:</p>
+  <%= link_to 'Sign In', login_path %>
+<% end %>

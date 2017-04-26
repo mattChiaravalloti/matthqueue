@@ -1,6 +1,51 @@
-<h1>Editing Account</h1>
+<% if logged_in? && @account.id == current_account.id %>
+  <% if defined?(@error) %>
+    <div class="panel panel-danger">
+      <div class="panel-heading">Problem Editing Account</div>
+      <div class="panel-body"><%= @error %></div>
+    </div>
+  <% end %>
 
-<%= render 'form', account: @account %>
+  <h1 class="welcome-banner text-center">Editing Account
+    - <%= link_to "#{@account.name}", @account %> -</h1>
+  <hr width="50%">
+  <center>
+    <%= form_for @account, :html => {:class => 'form-horizontal', :style => 'width:50%'} do |f| %>
+      <% if @account.errors.any? %>
+        <div class="panel panel-danger">
+          <div class="panel-heading">
+            <%= pluralize(@account.errors.count, "error") %> prohibited this account from being saved:
+          </div>
+          <div class="panel-body">
+            <ul>
+            <% @account.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
 
-<%= link_to 'Show', @account %> |
-<%= link_to 'Back', accounts_path %>
+      <div class="form-group">
+        <label for="old_password" class="col-md-3 control-label">Old Password:</label>
+        <div class="col-md-9">
+          <input type="password" class="form-control" name="old_password" id="old_password">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="new_password" class="col-md-3 control-label">New Password:</label>
+        <div class="col-md-9">
+          <input type="password" class="form-control" name="new_password" id="new_password">
+        </div>
+      </div>
+
+      <div class='actions'>
+        <%= f.submit 'Update Password', class: 'btn btn-default btn-primary' %>
+      </div>
+    <% end %>
+  </center>
+<% else %>
+  <p>To edit this account, please sign in:</p>
+  <%= link_to 'Sign In', login_path %>
+<% end %>

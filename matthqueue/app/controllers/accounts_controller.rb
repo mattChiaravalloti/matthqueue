@@ -46,11 +46,18 @@ class AccountsController < ApplicationController
 
   # PATCH/PUT /accounts/1
   def update
-      if @account.update(account_params)
+    if @account.password == params[:old_password]
+      @account.password = params[:new_password]
+      if @account.save
         redirect_to @account, notice: 'Account was successfully updated.'
       else
+        @error = @account.errors
         render :edit
       end
+    else
+      @error = 'Incorrect password'
+      render :edit
+    end
   end
 
   # DELETE /accounts/1
