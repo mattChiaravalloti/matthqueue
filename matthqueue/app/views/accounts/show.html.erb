@@ -81,15 +81,19 @@
                   <th>Semester</th>
                   <th># Enrolled Students</th>
                   <th># Instructors</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
                 <% @account.instructed_courses.each do |course|  %>
                   <tr>
-                    <td><%= course.name %></td>
+                    <td><%= link_to course.name, course %></td>
                     <td><%= course.semester %></td>
                     <td><%= course.students.length %></td>
                     <td><%= course.instructors.length %></td>
+                    <td>
+                      <%= link_to 'Destroy', course, method: :delete, data: { confirm: 'Are you sure?' } %>
+                    </td>
                   </tr>
                 <% end %>
               </tbody>

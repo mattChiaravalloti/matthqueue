@@ -1,11 +1,6 @@
 class CoursesController < ApplicationController
   before_action :set_course, only: [:show, :edit, :update, :destroy]
 
-  # GET /courses
-  def index
-    @courses = Course.all
-  end
-
   # GET /courses/1
   def show
   end
@@ -28,7 +23,7 @@ class CoursesController < ApplicationController
     if @course.save && @account.save
       redirect_to @course, notice: 'Course was successfully created.'
     else
-      render :new
+      redirect_to @account, notice: 'Course was not created!'
     end
   end
 
@@ -44,7 +39,7 @@ class CoursesController < ApplicationController
   # DELETE /courses/1
   def destroy
     @course.destroy
-    redirect_to courses_url, notice: 'Course was successfully destroyed.'
+    redirect_to current_account, notice: 'Course was successfully destroyed.'
   end
 
   private
