@@ -1,17 +1,8 @@
 class CoursesController < ApplicationController
-  before_action :set_course, only: [:show, :edit, :update, :destroy]
+  before_action :set_course, only: [:show, :destroy]
 
   # GET /courses/1
   def show
-  end
-
-  # GET /courses/new
-  def new
-    @course = Course.new
-  end
-
-  # GET /courses/1/edit
-  def edit
   end
 
   # POST /courses
@@ -24,15 +15,6 @@ class CoursesController < ApplicationController
       redirect_to @course, notice: 'Course was successfully created.'
     else
       redirect_to @account, notice: 'Course was not created!'
-    end
-  end
-
-  # PATCH/PUT /courses/1
-  def update
-    if @course.update(course_params)
-      redirect_to @course, notice: 'Course was successfully updated.'
-    else
-      render :edit
     end
   end
 
