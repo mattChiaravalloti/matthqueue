@@ -1,11 +1,21 @@
-<h1 id="log_in">Log In</h1>
+<h1 id="log_in" class="welcome-banner text-center">Sign In</h1>
+<hr width="50%">
 
-<%= form_tag url: login_path do %>
-  <%= label_tag :email %><br>
-  <%= text_field_tag :email %>
-  <br>
-  <%= label_tag :password %><br>
-  <%= password_field_tag :password %>
-  <br>
-  <%= submit_tag 'Log in' %>
-<% end %>
+<center>
+  <%= form_tag(login_path, method: 'post', class: 'form-horizontal',  style: 'width:50%') do %>
+    <div class='form-group'>
+      <%= label_tag :email, 'Email:', class: 'col-md-3 control-label' %>
+      <div class='col-md-9'>
+        <%= email_field_tag :email, nil, class: 'form-control' %>
+      </div>
+    </div>
+
+    <div class='form-group'>
+      <%= label_tag :password, 'Password:', class: 'col-md-3 control-label' %>
+      <div class='col-md-9'>
+        <%= password_field_tag :password, nil, class: 'form-control' %>
+      </div>
+    </div>
+    <%= submit_tag 'Sign in' %>
+  <% end %>
+</center>
