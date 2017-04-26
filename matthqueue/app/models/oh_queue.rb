@@ -1,5 +1,5 @@
 class OhQueue < ApplicationRecord
-  belongs_to :course
+  belongs_to :oh_time_slot
   has_many :questions
   has_many :students, through: :questions
   has_many :resolvers, through: :questions

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170426074920) do
+ActiveRecord::Schema.define(version: 20170426184935) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "name"
@@ -54,13 +54,24 @@ ActiveRecord::Schema.define(version: 20170426074920) do
   create_table "oh_queues", force: :cascade do |t|
     t.boolean  "active"
     t.integer  "last_position"
-    t.integer  "course_id"
     t.datetime "start_time"
     t.datetime "end_time"
     t.integer  "num_tas"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "oh_time_slot_id"
+    t.index ["oh_time_slot_id"], name: "index_oh_queues_on_oh_time_slot_id"
+  end
+
+  create_table "oh_time_slots", force: :cascade do |t|
+    t.string   "frequency"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.integer  "course_id"
+    t.integer  "avg_wait_time"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
-    t.index ["course_id"], name: "index_oh_queues_on_course_id"
+    t.index ["course_id"], name: "index_oh_time_slots_on_course_id"
   end
 
   create_table "questions", force: :cascade do |t|

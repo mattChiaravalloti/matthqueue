@@ -20,7 +20,8 @@ class Course < ApplicationRecord
   )
   has_many :instructors, :through => :lecturers, :source => :account
 
-  has_many :oh_queues
+  has_many :oh_time_slots
+  has_many :oh_queues, :through => :oh_time_slots
 
   def avg_wait_time
     sum = 0
