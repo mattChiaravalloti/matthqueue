@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   resources :courses, only: [:show, :destroy] do
     member do
       post :add_instructor
+      post :add_oh_time_slot
     end
   end
   post 'create_course' => 'courses#create'

@@ -13,93 +13,129 @@
   <% if @course.instructors.include? current_account %>
     <div class="row">
       <div class="col-md-1"></div>
-      <div class="col-md-4">
-        <div class="panel panel-info">
-          <div class="panel-heading">Course Info</div>
-          <div class="panel-body">
-            <p>
-              <strong>Name:</strong> <%= @course.name %>
-            </p>
-            <p>
-              <strong>Institution:</strong> <%= @course.institution.name %>
-            </p>
-            <p>
-              <strong>Semester:</strong> <%= @course.semester %>
-            </p>
-            <p>
-              <strong># of Students:</strong> <%= @course.students.length %>
-            </p>
-            <p>
-              <strong># of Past Queues:</strong> <%= @course.oh_queues.length %>
-            </p>
-            <p>
-              <strong>Avg. Wait Time (m):</strong> <%= @course.avg_wait_time / 60 %>
-            </p>
+      <div class="col-md-2">
+        <div class="row">
+          <div class="panel panel-info">
+            <div class="panel-heading">Course Info</div>
+            <div class="panel-body">
+              <p>
+                <strong>Name:</strong> <%= @course.name %>
+              </p>
+              <p>
+                <strong>Institution:</strong> <%= @course.institution.name %>
+              </p>
+              <p>
+                <strong>Semester:</strong> <%= @course.semester %>
+              </p>
+              <p>
+                <strong># of Students:</strong> <%= @course.students.length %>
+              </p>
+              <p>
+                <strong># of Past Queues:</strong> <%= @course.oh_queues.length %>
+              </p>
+              <p>
+                <strong>Avg. Wait Time (m):</strong> <%= (@course.avg_wait_time / 60).round(2) %>
+              </p>
 
-            <hr>
-            <% if current_account.professor %>
-              <%= link_to 'Destroy', @course, method: :delete, data: { confirm: 'Are you sure?' } %>
-            <% end %>
+              <hr>
+              <% if current_account.professor %>
+                <%= link_to 'Destroy', @course, method: :delete, data: { confirm: 'Are you sure?' } %>
+              <% end %>
+            </div>
+          </div>
+          <div class="panel panel-success">
+            <div class="panel-heading">
+              Instructors -
+              <small>
+                <%= pluralize(@course.professors.length, 'Professor') %>  |
+                <%= pluralize(@course.tas.length, 'TA', 'TAs') %>
+              </small> -
+            </div>
+            <div class="panel-body" style="height:200px;overflow-y:scroll">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Role</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @course.instructors.each do |instructor| %>
+                    <tr>
+                      <td><%= instructor.name %></td>
+                      <% if instructor.professor %>
+                        <td>Professor</td>
+                      <% else %>
+                        <td>TA</td>
+                      <% end %>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+            <div class="panel-body">
+              <%= form_tag(add_instructor_course_path, method: 'post') do %>
+                <div class="form-group">
+                  <%= email_field_tag :instructor_email, nil, class: 'form-control', placeholder: 'Instructor email' %>
+                </div>
+                <div class="form-group text-center">
+                  <%= submit_tag 'Add Instructor', class: 'btn btn-sm btn-default' %>
+                </div>
+              <% end %>
+            </div>
           </div>
         </div>
       </div>
       <div class="col-md-5">
         <div class="panel panel-default">
           <div class="panel-heading">Office Hours Timeslots</div>
-          <div class="panel-body">
-            <%= form_tag(add_instructor_course_path, method: 'post', class: '', style: 'margin:auto;width:90%') do %>
-              <div class="form-group">
-                <%= datetime_local_field :instructor_email, nil, class: 'form-control' %>
-              </div>
-              <div class="form-group">
-                <%= submit_tag 'Add Instructor', class: 'btn btn-default' %>
-              </div>
-            <% end %>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-1"></div>
-      <div class="col-md-4">
-        <div class="panel panel-success">
-          <div class="panel-heading">
-            Instructors -
-            <small>
-              <%= pluralize(@course.professors.length, 'Professor') %>  |
-              <%= pluralize(@course.tas.length, 'TA', 'TAs') %>
-            </small> -
-          </div>
           <div class="panel-body" style="height:200px;overflow-y:scroll">
+            <h3>Scheduled Office Hours</h3>
             <table class="table table-hover">
               <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Role</th>
+                  <th>Next Start Time</th>
+                  <th>Duration (h)</th>
+                  <th>Frequency</th>
+                  <th>Avg. Wait Time(m)</th>
                 </tr>
               </thead>
               <tbody>
-                <% @course.instructors.each do |instructor| %>
+                <% @course.oh_time_slots.each do |slot| %>
                   <tr>
-                    <td><%= instructor.name %></td>
-                    <% if instructor.professor %>
-                      <td>Professor</td>
-                    <% else %>
-                      <td>TA</td>
-                    <% end %>
+                    <td><%= slot.start_time%></td>
+                    <td><%= ((slot.end_time - slot.start_time) / 3600).to_i %></td>
+                    <td><%= slot.frequency %></td>
+                    <td><%= (slot.avg_wait_time / 60).round(2) %></td>
                   </tr>
                 <% end %>
               </tbody>
             </table>
           </div>
           <div class="panel-body">
-            <%= form_tag(add_instructor_course_path, method: 'post', class: 'form-inline', style: 'margin:auto;width:90%') do %>
+            <%= form_tag(add_oh_time_slot_course_path, method: 'post', class: 'form-horizontal') do %>
               <div class="form-group">
-                <%= email_field_tag :instructor_email, nil, class: 'form-control', placeholder: 'Instructor email' %>
+                <%= label_tag :'oh_time_slot[start_time]', 'Start:', class: 'col-md-2 control-label' %>
+                <div class='col-md-9'>
+                  <%= datetime_local_field :'oh_time_slot[start_time]', nil, class: 'form-control' %>
+                </div>
               </div>
               <div class="form-group">
-                <%= submit_tag 'Add Instructor', class: 'btn btn-default' %>
+                <%= label_tag :'oh_time_slot[duration]', 'Duration (h):', class: 'col-md-2 control-label' %>
+                <div class='col-md-9'>
+                  <%= text_field_tag :'oh_time_slot[duration]', nil, class: 'form-control', placeholder: 'number of hours (i.e. 2, 1.5, etc)' %>
+                </div>
+              </div>
+              <div class="form-group">
+                <%= label_tag :'oh_time_slot[frequency]', 'Frequency:', class: 'col-md-2 control-label' %>
+                <div class='col-md-9'>
+                  <%= select_tag(:'oh_time_slot[frequency]',
+                      options_for_select([['Once', 'once'], ['Daily', 'daily'], ['Weekly', 'weekly']]),
+                      class: 'form-control') %>
+                </div>
+              </div>
+              <div class="form-group text-center">
+                <%= submit_tag 'Create Office Hour Timeslot', class: 'btn btn-default' %>
               </div>
             <% end %>
           </div>
