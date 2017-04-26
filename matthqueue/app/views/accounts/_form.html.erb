@@ -1,42 +1,58 @@
-<%= form_for(account) do |f| %>
-  <% if account.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(account.errors.count, "error") %> prohibited this account from being saved:</h2>
-
-      <ul>
-      <% account.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+<%= form_for @account, :html => {:class => 'form-horizontal', :style => 'width:50%'} do |f| %>
+  <% if @account.errors.any? %>
+    <div class="panel panel-danger">
+      <div class="panel-heading">
+        <%= pluralize(@account.errors.count, "error") %> prohibited this account from being saved:
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @account.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :name %>
-    <%= f.text_field :name %>
+  <div class='form-group'>
+    <%= f.label :name, 'Full Name:', class: 'col-md-3 control-label' %>
+    <div class='col-md-9'>
+      <%= f.text_field :name, class: 'form-control' %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label :email %>
-    <%= f.text_field :email %>
+  <div class='form-group'>
+    <%= f.label :email, 'Email:', class: 'col-md-3 control-label' %>
+    <div class='col-md-9'>
+      <%= f.text_field :email, class: 'form-control', type: 'email' %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label :password_hash %>
-    <%= f.password_field :password_hash %>
+  <div class='form-group'>
+    <%= f.label :password, 'Password:', class: 'col-md-3 control-label' %>
+    <div class='col-md-9'>
+      <%= f.text_field :password_hash, class: 'form-control' %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label :professor %>
-    <%= f.check_box :professor %>
+  <div class="form-group">
+    <label for="institution_name" class="col-md-3 control-label">Institution Name:</label>
+    <div class="col-md-9">
+      <input type="text" class="form-control" name="institution_name" id="institution_name">
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label :institution_id %>
-    <%= f.text_field :institution_id %>
+  <div class="form-group">
+    <label for="institution_secret" class="col-md-3 control-label">Institution Secret:</label>
+    <div class="col-md-9">
+      <input type="text" class="form-control" name="institution_secret" id="institution_secret">
+      <p class="text-left help-block">If you are signing up as a professor, please provide the
+        institution's secret given to you by your institution's administrator. Students can leave
+        this field blank.</p>
+    </div>
   </div>
 
-  <div class="actions">
-    <%= f.submit %>
+  <div class='actions'>
+    <%= f.submit 'Submit', class: 'btn btn-default btn-primary' %>
   </div>
 <% end %>

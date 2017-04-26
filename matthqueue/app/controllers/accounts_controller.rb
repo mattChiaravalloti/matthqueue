@@ -21,14 +21,26 @@ class AccountsController < ApplicationController
 
   # POST /accounts
   def create
-    @account = Account.new(account_params)
-    @account.password = account_params[:password_hash]
+    institution = Institution.find_by(:name => params[:institution_name])
 
-    if @account.save
-      session[:account_id] = @account.id
-      redirect_to @account, notice: 'Account was successfully created.'
-    else
+    if institution.nil?
+      @account = Account.new
+      @error = "No such institution #{params[:institution_name]}"
       render :new
+    else
+      secret = params[:institution_secret]
+      params = account_params
+      params[:institution_id] = institution.id
+      params[:professor] = institution.secret == secret
+      @account = Account.new(params)
+      @account.password = params[:password_hash]
+
+      if @account.save
+        session[:account_id] = @account.id
+        redirect_to @account, notice: 'Account was successfully created.'
+      else
+        render :new
+      end
     end
   end
 

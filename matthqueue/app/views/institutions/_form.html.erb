@@ -1,10 +1,10 @@
 <%= form_for @institution, :html => {:class => 'form-horizontal', :style => 'width:50%'} do |f| %>
-  <% if institution.errors.any? %>
+  <% if @institution.errors.any? %>
     <div id='error_explanation'>
-      <h2><%= pluralize(institution.errors.count, 'error') %> prohibited this institution from being saved:</h2>
+      <h2><%= pluralize(@institution.errors.count, 'error') %> prohibited this institution from being saved:</h2>
 
       <ul>
-      <% institution.errors.full_messages.each do |message| %>
+      <% @institution.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>

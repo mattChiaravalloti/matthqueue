@@ -1,5 +1,12 @@
-<h1>New Account</h1>
+<% if defined?(@error) %>
+  <div class="panel panel-danger">
+    <div class="panel-heading">Problem Creating Account</div>
+    <div class="panel-body"><%= @error %></div>
+  </div>
+<% end %>
 
-<%= render 'form', account: @account %>
-
-<%= link_to 'Back', accounts_path %>
+<h1 class="welcome-banner text-center">New Account</h1>
+<hr width="50%">
+<center>
+  <%= render 'form', account: @account %>
+</center>
