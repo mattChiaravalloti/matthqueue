@@ -9,7 +9,7 @@ class Account < ApplicationRecord
   validate :email_regex
 
   belongs_to :institution
-  has_many :accounts_courses
+  has_many :accounts_courses, dependent: :destroy
 
   # enable get all enrolled courses via account.enrolled_courses (this is a list
   # of Courses)

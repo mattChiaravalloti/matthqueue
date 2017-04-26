@@ -15,5 +15,7 @@ Rails.application.routes.draw do
   # courses
   resources :courses, only: [:show, :destroy]
   post 'create_course' => 'courses#create'
+  post 'enroll_course' => 'courses#enroll'
+  post 'drop_course' => 'courses#drop'
 
 end

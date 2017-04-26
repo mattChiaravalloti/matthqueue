@@ -18,6 +18,32 @@ class CoursesController < ApplicationController
     end
   end
 
+  # POST /courses
+  def enroll
+    @course = Course.where(:name=>course_params[:name])
+                    .where(:semester=>course_params[:semester])
+                    .where(:institution_id=>course_params[:institution_id])
+                    .first
+    @account = Account.find(params[:student_id])
+    @account.enrolled_courses << @course
+
+    if @course.save && @account.save
+      redirect_to @course, notice: "#{@account.name} successfully enrolled."
+    else
+      redirect_to @account, notice: 'Problem with enrollment!'
+    end
+  end
+
+  # DELETE /courses
+  def drop
+    @course = Course.find(params[:course_id])
+    @account = Account.find(params[:student_id])
+
+    @account.enrolled_courses.delete(@course)
+
+    redirect_to @account, notice: "successfully dropped #{@course.name}."
+  end
+
   # DELETE /courses/1
   def destroy
     @course.destroy

@@ -4,7 +4,7 @@ class Course < ApplicationRecord
   validates :name, :semester, presence: true
   validates_uniqueness_of :name, scope: [:institution, :semester]
 
-  has_many :accounts_courses
+  has_many :accounts_courses, dependent: :destroy
 
   # enable get all students via course.students (this is a list of Accounts)
   has_many(:enrolled,

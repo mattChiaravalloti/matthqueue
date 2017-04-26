@@ -3,8 +3,11 @@
     <tr>
       <th>Course Name</th>
       <th>Semester</th>
-      <th># Enrolled Students</th>
+      <th># Students</th>
       <th># Instructors</th>
+      <% if droppable || destroyable %>
+        <th></th>
+      <% end %>
     </tr>
   </thead>
   <tbody>
@@ -14,6 +17,15 @@
         <td><%= course.semester %></td>
         <td><%= course.students.length %></td>
         <td><%= course.instructors.length %></td>
+        <% if droppable %>
+          <td><p class="drop-button btn-link" course-id="<%= course.id%>" account-id="<%= account.id%>">
+            Drop</p>
+          </td>
+        <% elsif destroyable %>
+          <td>
+            <%= link_to 'Destroy', course, method: :delete, data: { confirm: 'Are you sure?' } %>
+          </td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
