@@ -57,23 +57,6 @@ class CoursesController < ApplicationController
                 alert: "Unable to add instructor!"
   end
 
-  # POST /courses/1/add_oh_time_slot
-  def add_oh_time_slot
-    params = oh_time_slot_params
-
-    # end time = start time + (duration (in hours) * 3600 (seconds))
-    params[:end_time] = params[:start_time] + (params[:duration] * 3600)
-    params[:course] = @course
-    
-    @oh_time_slot = OhTimeSlot.create(params)
-
-    if @oh_time_slot.save
-      redirect_to @course, notice: 'Office Hours Timeslot successfully created.'
-    else
-      redirect_to @course, alert: 'Unable to create timeslot!'
-    end
-  end
-
   # DELETE /courses/1
   def destroy
     @course.destroy
@@ -89,9 +72,5 @@ class CoursesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def course_params
       params.require(:course).permit(:name, :institution_id, :semester)
-    end
-
-    def oh_time_slot_params
-      params.require(:oh_time_slot).permit(:start_time, :duration, :frequency)
     end
 end

@@ -16,8 +16,8 @@ Rails.application.routes.draw do
   resources :courses, only: [:show, :destroy] do
     member do
       post :add_instructor
-      post :add_oh_time_slot
     end
+    resources :oh_time_slots, only: [:create, :show, :edit, :update, :destroy]
   end
   post 'create_course' => 'courses#create'
   post 'enroll_course' => 'courses#enroll'

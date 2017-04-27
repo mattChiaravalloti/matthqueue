@@ -113,7 +113,8 @@
             </table>
           </div>
           <div class="panel-body">
-            <%= form_tag(add_oh_time_slot_course_path, method: 'post', class: 'form-horizontal') do %>
+            <%= form_tag(course_oh_time_slots_path(@course), method: 'post', class: 'form-horizontal') do %>
+              <%= hidden_field_tag :'oh_time_slot[course_id]', @course.id %>
               <div class="form-group">
                 <%= label_tag :'oh_time_slot[start_time]', 'Start:', class: 'col-md-2 control-label' %>
                 <div class='col-md-9'>
@@ -130,7 +131,7 @@
                 <%= label_tag :'oh_time_slot[frequency]', 'Frequency:', class: 'col-md-2 control-label' %>
                 <div class='col-md-9'>
                   <%= select_tag(:'oh_time_slot[frequency]',
-                      options_for_select([['Once', 'once'], ['Daily', 'daily'], ['Weekly', 'weekly']]),
+                      options_for_select([['Once', 'Once'], ['Daily', 'Daily'], ['Weekly', 'Weekly']]),
                       class: 'form-control') %>
                 </div>
               </div>
