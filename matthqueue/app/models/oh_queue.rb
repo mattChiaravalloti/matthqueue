@@ -72,4 +72,11 @@ class OhQueue < ApplicationRecord
       q.student == student && q.status == 'unresolved'
     end.first
   end
+
+  def next_position
+    pos = self.last_position
+    self.last_position = pos + 1
+    save!
+    pos
+  end
 end

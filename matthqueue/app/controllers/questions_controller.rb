@@ -3,7 +3,18 @@ class QuestionsController < ApplicationController
 
   # POST /questions
   def create
-    @question = Question.new(question_params)
+    @course = Course.find(params[:course_id])
+    @oh_time_slot = OhTimeSlot.find(params[:oh_time_slot_id])
+    @oh_queue = OhQueue.find(params[:oh_queue_id])
+
+    @question = Question.new(
+      title: question_params[:title],
+      body: question_params[:body],
+      oh_queue: @oh_queue,
+      position: @oh_queue.next_position,
+      student: current_account,
+      status: 'unresolved'
+    )
 
     if @question.save
       redirect_to course_oh_time_slot_oh_queue_path(
@@ -21,7 +32,7 @@ class QuestionsController < ApplicationController
     @question.status = question_params[:status]
     if @question.status == 'resolved'
       @question.resolve_time = Time.now.utc
-      @question.resolver = current_user
+      @question.resolver = current_account
     end
     if @question.save
       redirect_to course_oh_time_slot_oh_queue_path(

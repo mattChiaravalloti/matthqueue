@@ -119,11 +119,30 @@
         </div>
       </div>
       <div class="col-md-6">
-        <% current_question = @oh_queue.unresolved_question_for(current_account) %>
-        <% if current_question.nil? %>
-          form to make question coming soon...
-        <% else %>
-          <div class="panel panel-danger">
+        <div class="panel panel-danger">
+          <% current_question = @oh_queue.unresolved_question_for(current_account) %>
+          <% if current_question.nil? %>
+            <div class="panel-heading">Submit Question</div>
+            <div class="panel-body"> 
+              <%= form_tag(course_oh_time_slot_oh_queue_questions_path(@course, @oh_time_slot, @oh_queue), method: 'post', class: 'form-horizontal') do %>
+              <div class="form-group">
+                <%= label_tag :'question[title]', 'Title:', class: 'col-md-2 control-label' %>
+                <div class='col-md-9'>
+                  <%= text_field_tag :'question[title]', nil, class: 'form-control', placeholder: 'Qustion goes here' %>
+                </div>
+              </div>
+              <div class="form-group">
+                <%= label_tag :'question[body]', 'Body:', class: 'col-md-2 control-label' %>
+                <div class='col-md-9'>
+                  <%= text_field_tag :'question[body]', nil, class: 'form-control', placeholder: 'Provide a few details here if necessary' %>
+                </div>
+              </div>
+              <div class="form-group text-center">
+                <%= submit_tag 'Submit Question', class: 'btn btn-default' %>
+              </div>
+            <% end %>
+            </div>
+          <% else %>
             <div class="panel-heading">Current Question</div>
             <div class="panel-body"> 
               <table class="table">
@@ -147,14 +166,14 @@
                 </tr>
                 <tr>
                   <td align="right"><strong>Approximate Expected Resolution Time</strong></td>
-                  <td align="left"><%= ((current_question.created_at + @oh_time_slot.avg_wait_time) + Time.zone_offset(Time.now.getlocal.zone)).to_formatted_s(:long) %></td>
+                  <td align="left"><%= ((current_question.created_at + @oh_queue.avg_wait_time) + Time.zone_offset(Time.now.getlocal.zone)).to_formatted_s(:long) %></td>
                 <td> &nbsp; </td>
                 <td> &nbsp; </td>
                 </tr>
               </table>
             </div>
-          </div>
-        <% end %>
+          <% end %>
+        </div>
       </div>
     <% end %>
   </div>
