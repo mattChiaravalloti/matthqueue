@@ -4,7 +4,7 @@
   <td style="vertical-align:middle"><%= q.body %></td>
   <td style="vertical-align:middle"><%= q.status %></td>
   <td style="vertical-align:middle">
-    <%= form_tag(course_oh_time_slot_oh_queue_question_path(c, oh, ohq, q), method: 'post', class: 'form-inline') do %>
+    <%= form_tag(course_oh_time_slot_oh_queue_question_path(c, oh, ohq, q), method: 'put', class: 'form-inline') do %>
       <div class="form-group">
         <%= select_tag(:'question[status]',
             options_for_select([['in-progress', 'in-progress'], ['resolved', 'resolved'], ['unresolved', 'unresolved']]),
