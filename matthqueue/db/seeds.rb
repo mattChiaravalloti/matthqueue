@@ -75,7 +75,7 @@ q0 = OhQueue.create({
   oh_time_slot: ohslot1_1})
 
 q1 = OhQueue.create({
-  active: true, last_position: 4, start_time: start1, end_time: end1,
+  active: true, last_position: 6, start_time: start1, end_time: end1,
   oh_time_slot: ohslot1_1})
 
 q2 = OhQueue.create({
@@ -86,6 +86,14 @@ qstn0 = Question.create({
   title: 'Test Q 0', body: 'This is a test question.', oh_queue: q0,
   position: 1, student: testStudent, resolver: testTA, status: 'resolved',
   resolve_time: Time.now.utc + (4 * 60)}) 
+
+qstn_u = Question.create!({
+  title: 'Test Unresolved', body: 'This is unresolved.', oh_queue: q1,
+  position: 4, student: testStudent, status: 'unresolved'})
+
+qstn_ip = Question.create!({
+  title: 'Test in-progress', body: 'This is in-progress.', oh_queue: q1,
+  position: 5, student: testStudent, status: 'in-progress'})
 
 qstn1 = Question.create({
   title: 'Test Q 1', body: 'This is a test question.', oh_queue: q1,

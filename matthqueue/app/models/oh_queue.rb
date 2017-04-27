@@ -58,4 +58,12 @@ class OhQueue < ApplicationRecord
   def num_unique_instructors
     self.questions.map { |q| q.resolver }.uniq.length
   end
+
+  def unresolved_questions
+    self.questions.select { |q| q.status != 'resolved' }
+  end
+
+  def resolved_questions
+    self.questions.select { |q| q.status == 'resolved' }
+  end
 end

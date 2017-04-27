@@ -3,6 +3,8 @@ class OhQueuesController < ApplicationController
 
   # GET /oh_queues/1
   def show
+    @course = Course.find(params[:course_id])
+    @oh_time_slot = OhTimeSlot.find(params[:oh_time_slot_id])
   end
 
   def end_queue

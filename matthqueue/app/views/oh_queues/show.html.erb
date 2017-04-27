@@ -1,4 +1,62 @@
 <% if logged_in? %>
+  <% is_instructor = @course.instructors.include? current_account %>
   <p id="notice"><%= notice %></p>
   <p id="alert"><%= alert %></p>
+
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <h3>
+        Queue for
+        <%= link_to @course.name, @course %>
+        <%= @oh_time_slot.start_time.strftime("%A") %>
+        <%= @oh_time_slot.frequency %> Office Hours
+      </h3>
+
+      <% if is_instructor %>
+        <%= link_to 'End Queue', end_queue_course_oh_time_slot_oh_queue_path, class: 'btn btn-danger' %>
+      <% end %>
+      <hr>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-1"></div>
+    <% if is_instructor %>
+      <div class="col-md-10">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            Questions -
+            <small>
+              <%= @oh_queue.unresolved_questions.length %> Unresolved
+            </small> -
+          </div>
+          <div class="panel-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Position</th>
+                  <th>Title</th>
+                  <th>Details</th>
+                  <th>Status</th>
+                  <th colspan='2'></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @oh_queue.unresolved_questions.each do |q| %>
+                  <%= render 'questions/row', c: @course, oh: @oh_time_slot, ohq: @oh_queue, q: q, row_class: '' %>
+                <% end %>
+                <% @oh_queue.resolved_questions.each do |q| %>
+                  <%= render 'questions/row', c: @course, oh: @oh_time_slot, ohq: @oh_queue, q: q, row_class: 'success' %>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    <% else %>
+    <% end %>
+  </div>
+<% else %>
+  <h4>Nothing to see hear... move along.</h4>
 <% end %>

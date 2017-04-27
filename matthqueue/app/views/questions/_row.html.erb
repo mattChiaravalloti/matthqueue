@@ -1,0 +1,21 @@
+<tr class="<%= row_class %>">
+  <td><%= q.position %></td>
+  <td><%= q.title %></td>
+  <td><%= q.body %></td>
+  <td><%= q.status %></td>
+  <td>
+    <%= form_tag(course_oh_time_slot_oh_queue_question_path(c, oh, ohq, q), method: 'post', class: 'form-inline') do %>
+      <div class="form-group">
+        <%= select_tag(:'question[status]',
+            options_for_select([['in-progress', 'in-progress'], ['resolved', 'resolved'], ['unresolved', 'unresolved']]),
+            class: 'form-control') %>
+      </div>
+      <div class="form-group text-center">
+        <%= submit_tag 'Update', class: 'btn btn-xs' %>
+      </div>
+    <% end %>
+  </td>
+  <td>
+    <%= link_to 'Destroy', course_oh_time_slot_oh_queue_question_path(c, oh, ohq, q), method: :delete, data: { confirm: 'Are you sure?' } %>
+  </td>
+</tr>

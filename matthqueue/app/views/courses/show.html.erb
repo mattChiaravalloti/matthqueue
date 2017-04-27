@@ -154,7 +154,7 @@
                 <% if slot.queue_active? %>
                   <h3>
                     <%= start_time %> -
-                    <%= link_to 'Live Queue', course_oh_time_slot_oh_queue_path(slot, slot.active_queue) %>
+                    <a href="/courses/<%=@course.id%>/oh_time_slots/<%=slot.id%>/oh_queues/<%=slot.active_queue.id%>">Live Queue</a>
                   </h3>
                 <% else %>
                   <% if is_instructor %>
