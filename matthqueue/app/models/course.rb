@@ -70,6 +70,10 @@ class Course < ApplicationRecord
     self.questions.where(:student=>student)
   end
 
+  def answers_for(instructor)
+    self.questions.where(:resolver=>instructor)
+  end
+
   def professors
     self.instructors.where(:professor=>true)
   end

@@ -72,12 +72,16 @@
               <%= pluralize(@course.tas.length, 'TA', 'TAs') %>
             </small> -
           </div>
+
           <div class="panel-body" style="height:150px;overflow-y:scroll">
-            <table class="table table-hover">
+            <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.css" rel="stylesheet"/>
+            <table data-toggle="table" data-sort-name="name" data-sort-order="desc">
               <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Role</th>
+                  <th data-field="name" data-sortable="true">Name</th>
+                  <th data-field="forks_count" data-sortable="false">Role</th>
+                  <th data-field="answers" data-sortable="true">Answers</th>
                 </tr>
               </thead>
               <tbody>
@@ -89,10 +93,13 @@
                     <% else %>
                       <td>TA</td>
                     <% end %>
+                    <td><%= @course.answers_for(instructor).length %></td>
                   </tr>
                 <% end %>
               </tbody>
             </table>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.js"></script>
           </div>
           <div class="panel-body">
             <hr>
