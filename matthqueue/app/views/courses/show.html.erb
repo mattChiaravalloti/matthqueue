@@ -126,8 +126,13 @@
               <tbody>
                 <% @course.questions_for(current_account).each do |question| %>
                   <tr>
-                    <td><%= question.title %></td>
-                    <td><%= (question.wait_time / 60).round(2) %></td>
+                    <% if question.status == 'resolved' %>
+                      <td><%= question.title %></td>
+                      <td><%= (question.wait_time / 60).round(2) %></td>
+                    <% else %>
+                      <td style="color:red"><%= question.title %></td>
+                      <td style="color:red"><%= ((Time.now.utc - question.created_at) / 60).round(2) %></td>
+                    <% end %>
                   </tr>
                 <% end %>
               </tbody>
