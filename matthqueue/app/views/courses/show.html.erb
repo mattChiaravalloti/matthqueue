@@ -160,7 +160,7 @@
                   <% if is_instructor %>
                     <h3>
                       <%= start_time %> -
-                      <%= link_to 'Launch Queue', launch_queue_course_oh_time_slot_path(slot) %>
+                      <%= link_to 'Launch Queue', launch_queue_course_oh_time_slot_path(@course, slot) %>
                     </h3>
                   <% else %>
                     <h3>Office Hours are active, but the queue has not yet been created.</h3>
