@@ -3,6 +3,7 @@ class OhTimeSlotsController < ApplicationController
 
   # GET /oh_time_slots/1
   def show
+    @course = Course.find(params[:course_id])
   end
 
   # GET /oh_time_slots/1/edit

@@ -46,6 +46,9 @@ testStudent.enrolled_courses << course2
 testProf.instructed_courses << course3
 testStudentTA.enrolled_courses << course3
 
+start0 = Time.now.utc - (2 * 3600)
+end0 = start0 + 3600
+
 start1 = Time.now.utc
 end1 = start1 + (4 * 3600)
 
@@ -67,6 +70,10 @@ ohslot3_1 = OhTimeSlot.create({
   frequency: 'Weekly', start_time: start3, end_time: end3,
   course: course3})
 
+q0 = OhQueue.create({
+  active: false, last_position: 2, start_time: start0, end_time: end0,
+  oh_time_slot: ohslot1_1})
+
 q1 = OhQueue.create({
   active: true, last_position: 4, start_time: start1, end_time: end1,
   oh_time_slot: ohslot1_1})
@@ -78,6 +85,11 @@ q2 = OhQueue.create({
 q3 = OhQueue.create({
   active: true, last_position: 2, start_time: start3, end_time: end3,
   oh_time_slot: ohslot3_1})
+
+qstn0 = Question.create({
+  title: 'Test Q 0', body: 'This is a test question.', oh_queue: q0,
+  position: 1, student: testStudent, resolver: testTA, status: 'resolved',
+  resolve_time: Time.now.utc + (4 * 60)}) 
 
 qstn1 = Question.create({
   title: 'Test Q 1', body: 'This is a test question.', oh_queue: q1,

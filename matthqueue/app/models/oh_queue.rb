@@ -41,9 +41,21 @@ class OhQueue < ApplicationRecord
     end
   end
 
+  def total_wait_time
+    self.questions.reduce(0) { |sum, q| sum + q.wait_time }
+  end
+
   def total_wait_time_for(student)
     self.questions
       .select { |q| q.student == student }
       .reduce(0) { |sum, q| sum + q.wait_time }
+  end
+
+  def num_unique_students
+    self.questions.map { |q| q.student }.uniq.length
+  end
+
+  def num_unique_instructors
+    self.questions.map { |q| q.resolver }.uniq.length
   end
 end

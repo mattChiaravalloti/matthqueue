@@ -1,4 +1,96 @@
-<p id="notice"><%= notice %></p>
+<% if logged_in? %>
+  <p id="notice"><%= notice %></p>
+  <p id="alert"><%= alert %></p>
 
-<%= link_to 'Edit', edit_oh_time_slot_path(@oh_time_slot) %> |
-<%= link_to 'Back', oh_time_slots_path %>
+  <% start_time =
+    (@oh_time_slot.start_time + Time.zone_offset(Time.now.getlocal.zone)).to_formatted_s(:long) %>
+
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <h3>
+        <%= @course.name %>:
+        <%= @oh_time_slot.start_time.strftime("%A") %>
+        <%= @oh_time_slot.frequency %> Office Hours
+        <small><%= link_to 'Edit', edit_course_oh_time_slot_path(@oh_time_slot) %></small>
+      </h3>
+      <h4>- Next Start Time: <%= start_time %> -</h4>
+      
+      <hr>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <div class="panel panel-info">
+        <div class="panel-heading">Aggregate Statistics</div>
+        <div class="panel-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th># Total Queues</th>
+                <th># Total Questions</th>
+                <th># Unique Students</th>
+                <th># Unique Instructors</th>
+                <th>Avg. Wait Time (m)</th>
+                <th>Total Time Waited (m)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><%= @oh_time_slot.oh_queues.length %></td>
+                <td><%= @oh_time_slot.total_num_questions %></td>
+                <td><%= @oh_time_slot.num_unique_students %></td>
+                <td><%= @oh_time_slot.num_unique_instructors %></td>
+                <td><%= (@oh_time_slot.avg_wait_time / 60).round(2) %></td>
+                <td><%= (@oh_time_slot.total_wait_time / 60).round(2) %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <div class="panel panel-default">
+        <div class="panel-heading">Queue Statistics</div>
+        <div class="panel-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th># Total Questions</th>
+                <th># Unique Students</th>
+                <th># Unique Instructors</th>
+                <th>Avg. Wait Time (m)</th>
+                <th>Total Time Waited (m)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @oh_time_slot.oh_queues.each do |q| %>
+                <tr>
+                  <td><%= (q.start_time + Time.zone_offset(Time.now.getlocal.zone)).to_formatted_s(:long) %></td>
+                  <td><%= (q.end_time + Time.zone_offset(Time.now.getlocal.zone)).to_formatted_s(:long) %></td>
+                  <td><%= q.questions.length %></td>
+                  <td><%= q.num_unique_students %></td>
+                  <td><%= q.num_unique_instructors %></td>
+                  <td><%= (q.avg_wait_time / 60).round(2) %></td>
+                  <td><%= (q.total_wait_time / 60).round(2) %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+<% else %>
+  <h4>Nothing to see hear... move along.</h4>
+<% end %>
