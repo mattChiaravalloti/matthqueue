@@ -153,13 +153,13 @@
               <% if diff_in_secs >= 0 %>
                 <% if slot.queue_active? %>
                   <h3>
-                    <%= start_time %>:
+                    <%= start_time %> -
                     <%= link_to 'Live Queue', course_oh_time_slot_oh_queue_path(slot, slot.active_queue) %>
                   </h3>
                 <% else %>
                   <% if is_instructor %>
                     <h3>
-                      <%= start_time %>:
+                      <%= start_time %> -
                       <%= link_to 'Launch Queue', launch_queue_course_oh_time_slot_path(slot) %>
                     </h3>
                   <% else %>

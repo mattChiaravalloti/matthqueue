@@ -9,7 +9,7 @@
 test = Institution.create({name: 'Test', secret: 'test', email_regex: 'test.com'})
 test.password = 'test'
 
-testProf = Account.create(
+testProf = Account.create!(
   {name: 'Professor Test', email: 'p@test.com', professor: true, institution: test})
 testProf.password = 'test'
 
@@ -46,28 +46,28 @@ testStudent.enrolled_courses << course2
 testProf.instructed_courses << course3
 testStudentTA.enrolled_courses << course3
 
-start0 = Time.now.utc - (2 * 3600)
-end0 = start0 + 3600
-
 start1 = Time.now.utc
-end1 = start1 + (4 * 3600)
+end1 = start1 + (2 * 3600)
+
+start0 = start1 - (7 * 24 * 3600)
+end0 = start0 + (2 * 3600)
 
 ohslot1_1 = OhTimeSlot.create({
   frequency: 'Weekly', start_time: start1, end_time: end1,
   course: course1})
 
 start2 = Time.now.utc
-end2 = start2 + (2 * 3600)
+end2 = start2 + (6 * 3600)
 
 ohslot2_1 = OhTimeSlot.create({
   frequency: 'Weekly', start_time: start2, end_time: end2,
   course: course2})
 
 start3 = Time.now.utc
-end3 = start3 + (6 * 3600)
+end3 = start3 + (4 * 3600)
 
 ohslot3_1 = OhTimeSlot.create({
-  frequency: 'Weekly', start_time: start3, end_time: end3,
+  frequency: 'Daily', start_time: start3, end_time: end3,
   course: course3})
 
 q0 = OhQueue.create({
@@ -81,10 +81,6 @@ q1 = OhQueue.create({
 q2 = OhQueue.create({
   active: true, last_position: 3, start_time: start2, end_time: end2,
   oh_time_slot: ohslot2_1})
-
-q3 = OhQueue.create({
-  active: true, last_position: 2, start_time: start3, end_time: end3,
-  oh_time_slot: ohslot3_1})
 
 qstn0 = Question.create({
   title: 'Test Q 0', body: 'This is a test question.', oh_queue: q0,
@@ -114,8 +110,3 @@ qstn4 = Question.create({
 qstn5 = Question.create({
   title: 'Test Q 2', body: 'This is a test question.', oh_queue: q2,
   position: 2, student: testStudent, resolver: testTA, status: 'in-progress'})
-
-qstn6 = Question.create({
-  title: 'Test Q 1', body: 'This is a test question.', oh_queue: q3,
-  position: 1, student: testStudentTA, resolver: testProf, status: 'resolved',
-  resolve_time: Time.now.utc + (20 * 60)})

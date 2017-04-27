@@ -3,7 +3,7 @@ require 'bcrypt'
 class Account < ApplicationRecord
   include BCrypt
 
-  validates :email, :name, :password_hash, presence: true
+  validates :email, :name, presence: true
   validates_uniqueness_of :email
   validates_length_of :name, minimum: 2
   validate :email_regex
@@ -39,5 +39,6 @@ class Account < ApplicationRecord
   def password=(new_password)
     @password = Password.create(new_password)
     self.password_hash = @password
+    save!
   end
 end
