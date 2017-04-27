@@ -73,7 +73,11 @@
             <tbody>
               <% @oh_time_slot.oh_queues.each do |q| %>
                 <tr>
-                  <td><%= (q.start_time + Time.zone_offset(Time.now.getlocal.zone)).to_formatted_s(:long) %></td>
+                  <td>
+                    <% q_start_time = (q.start_time + Time.zone_offset(Time.now.getlocal.zone)).to_formatted_s(:long) %>
+                    <%= link_to q_start_time, course_oh_time_slot_oh_queue_path(@course, @oh_time_slot, q)
+                    %>
+                  </td>
                   <td><%= (q.end_time + Time.zone_offset(Time.now.getlocal.zone)).to_formatted_s(:long) %></td>
                   <td><%= q.questions.length %></td>
                   <td><%= q.num_unique_students %></td>
