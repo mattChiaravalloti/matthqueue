@@ -90,7 +90,26 @@
         <div class="panel panel-danger">
           <div class="panel-heading">Queues</div>
           <div class="panel-body">
-            coming soon..
+            <% rn = Time.now.utc %>
+            <% msg = 'No office hours today!' %>
+            <% found = false %>
+            <% @course.oh_time_slots.select{ |slot| slot.start_time.today? }.each do |slot| %>
+              <% end_time = slot.end_time.time %>
+              <% if end_time > rn %>
+                <% found = true %>
+                <% diff_in_secs = rn - slot.start_time.time %>
+                <% if diff_in_secs >= 0 %>
+                  <p>There is a live OH slot rn rn!</p>
+                <% else %>
+                  <p>There will be office hours in <%= (diff_in_secs / 60).round(2) %> minutes</p>
+                <% end%>
+              <% else %>
+                <% msg = 'No more office hours today!' %>
+              <% end %>
+            <% end %>
+            <% if !found %>
+              <p><%= msg %></p>
+            <% end %>
           </div>
         </div>
       </div>
@@ -111,7 +130,9 @@
               <tbody>
                 <% @course.oh_time_slots.each do |slot| %>
                   <tr>
-                    <td><%= slot.start_time%></td>
+                    <td>
+                      <%= (slot.start_time + Time.zone_offset(Time.now.getlocal.zone)).to_formatted_s(:long) %>
+                    </td>
                     <td><%= ((slot.end_time - slot.start_time) / 3600).to_i %></td>
                     <td><%= slot.frequency %></td>
                     <td><%= (slot.avg_wait_time / 60).round(2) %></td>

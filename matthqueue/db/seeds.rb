@@ -46,22 +46,22 @@ testStudent.enrolled_courses << course2
 testProf.instructed_courses << course3
 testStudentTA.enrolled_courses << course3
 
-start1 = Time.now
-end1 = Time.now + (4 * 3600)
+start1 = Time.now.utc
+end1 = start1 + (4 * 3600)
 
 ohslot1_1 = OhTimeSlot.create({
   frequency: 'Weekly', start_time: start1, end_time: end1,
   course: course1})
 
-start2 = Time.now
-end2 = Time.now + (2 * 3600)
+start2 = Time.now.utc
+end2 = start2 + (2 * 3600)
 
 ohslot2_1 = OhTimeSlot.create({
   frequency: 'Weekly', start_time: start2, end_time: end2,
   course: course2})
 
-start3 = Time.now
-end3 = Time.now + (6 * 3600)
+start3 = Time.now.utc
+end3 = start3 + (6 * 3600)
 
 ohslot3_1 = OhTimeSlot.create({
   frequency: 'Weekly', start_time: start3, end_time: end3,
@@ -82,22 +82,22 @@ q3 = OhQueue.create({
 qstn1 = Question.create({
   title: 'Test Q 1', body: 'This is a test question.', oh_queue: q1,
   position: 1, student: testStudent, resolver: testTA, status: 'resolved',
-  resolve_time: Time.now + (10 * 60)})
+  resolve_time: Time.now.utc + (10 * 60)})
 
 qstn2 = Question.create({
   title: 'Test Q 2', body: 'This is a test question.', oh_queue: q1,
   position: 2, student: testStudentTA, resolver: testTA, status: 'resolved',
-  resolve_time: Time.now + (15 * 60)})
+  resolve_time: Time.now.utc + (15 * 60)})
 
 qstn3 = Question.create({
   title: 'Test Q 3', body: 'This is a test question.', oh_queue: q1,
   position: 3, student: testStudent, resolver: testTA, status: 'resolved',
-  resolve_time: Time.now + (17 * 60)})
+  resolve_time: Time.now.utc + (17 * 60)})
 
 qstn4 = Question.create({
   title: 'Test Q 1', body: 'This is a test question.', oh_queue: q2,
   position: 1, student: testStudent, resolver: testStudentTA, status: 'resolved',
-  resolve_time: Time.now + (5 * 60)})
+  resolve_time: Time.now.utc + (5 * 60)})
 
 qstn5 = Question.create({
   title: 'Test Q 2', body: 'This is a test question.', oh_queue: q2,
@@ -106,4 +106,4 @@ qstn5 = Question.create({
 qstn6 = Question.create({
   title: 'Test Q 1', body: 'This is a test question.', oh_queue: q3,
   position: 1, student: testStudentTA, resolver: testProf, status: 'resolved',
-  resolve_time: Time.now + (20 * 60)})
+  resolve_time: Time.now.utc + (20 * 60)})
