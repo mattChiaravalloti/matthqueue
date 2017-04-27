@@ -19,9 +19,13 @@ Rails.application.routes.draw do
     resources :oh_time_slots, only: [:create, :show] do
       member do
         post :launch_queue
-        post :end_queue
       end
-      resources :oh_queues, only: [:create, :show]
+      resources :oh_queues, only: [:show] do
+        member do
+          post :end_queue
+        end
+        resources :questions, only: [:create, :update, :destroy]
+      end
     end
   end
   post 'create_course' => 'courses#create'

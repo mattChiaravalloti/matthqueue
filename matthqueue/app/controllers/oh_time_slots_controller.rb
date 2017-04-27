@@ -1,13 +1,9 @@
 class OhTimeSlotsController < ApplicationController
-  before_action :set_oh_time_slot, only: [:show, :edit, :update, :destroy]
+  before_action :set_oh_time_slot, only: [:show, :launch_queue]
 
   # GET /oh_time_slots/1
   def show
     @course = Course.find(params[:course_id])
-  end
-
-  # GET /oh_time_slots/1/edit
-  def edit
   end
 
   # POST /oh_time_slots
@@ -29,20 +25,19 @@ class OhTimeSlotsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /oh_time_slots/1
-  # PATCH/PUT /oh_time_slots/1.json
-  def update
-    if @oh_time_slot.update(oh_time_slot_params)
-      redirect_to @oh_time_slot, notice: 'Oh time slot was successfully updated.'
-    else
-      render :edit
-    end
-  end
+  def launch_queue
+    @queue = OhQueue.create(
+      active: true, # active upon creation
+      last_postition: 1, # first question in the queue is "question 1",
+      start_time: Time.now.utc
+      oh_time_slot: @oh_time_slot
+    )
 
-  # DELETE /oh_time_slots/1
-  def destroy
-    @oh_time_slot.destroy
-    redirect_to oh_time_slots_url, notice: 'Oh time slot was successfully destroyed.'
+    if @queue.save
+      redirect_to @queue, notice: 'Queue successfully launched.'
+    else
+      redirect_to @oh_time_slot, alert: 'Failed to launch queue!'
+    end
   end
 
   private

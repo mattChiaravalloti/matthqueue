@@ -1,63 +1,22 @@
 class OhQueuesController < ApplicationController
-  before_action :set_oh_queue, only: [:show, :edit, :update, :destroy]
-
-  # GET /oh_queues
-  # GET /oh_queues.json
-  def index
-    @oh_queues = OhQueue.all
-  end
+  before_action :set_oh_queue, only: [:show, :end_queue]
 
   # GET /oh_queues/1
-  # GET /oh_queues/1.json
   def show
   end
 
-  # GET /oh_queues/new
-  def new
-    @oh_queue = OhQueue.new
-  end
+  def end_queue
+    @course = Course.find(params[:couse_id])
 
-  # GET /oh_queues/1/edit
-  def edit
-  end
-
-  # POST /oh_queues
-  # POST /oh_queues.json
-  def create
-    @oh_queue = OhQueue.new(oh_queue_params)
-
-    respond_to do |format|
+    if @course.instructors.include? current_account
+      @oh_queue.active = false
       if @oh_queue.save
-        format.html { redirect_to @oh_queue, notice: 'Oh queue was successfully created.' }
-        format.json { render :show, status: :created, location: @oh_queue }
+        redirect_to @oh_queue, notice: 'Queue has been closed.'
       else
-        format.html { render :new }
-        format.json { render json: @oh_queue.errors, status: :unprocessable_entity }
+        redirect_to @oh_queue, alert: 'Problem closing queue!'
       end
-    end
-  end
-
-  # PATCH/PUT /oh_queues/1
-  # PATCH/PUT /oh_queues/1.json
-  def update
-    respond_to do |format|
-      if @oh_queue.update(oh_queue_params)
-        format.html { redirect_to @oh_queue, notice: 'Oh queue was successfully updated.' }
-        format.json { render :show, status: :ok, location: @oh_queue }
-      else
-        format.html { render :edit }
-        format.json { render json: @oh_queue.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /oh_queues/1
-  # DELETE /oh_queues/1.json
-  def destroy
-    @oh_queue.destroy
-    respond_to do |format|
-      format.html { redirect_to oh_queues_url, notice: 'Oh queue was successfully destroyed.' }
-      format.json { head :no_content }
+    else
+      redirect_to @oh_queue, alert: 'Only instructors can close the queue!'
     end
   end
 
