@@ -5,8 +5,8 @@ class CreateQuestions < ActiveRecord::Migration[5.0]
       t.text :body
       t.references :oh_queue, foreign_key: true
       t.integer :position
-      t.references :student, foreign_key: {to_table: :accounts}
-      t.references :resolver, foreign_key: {to_table: :accounts}
+      t.references :student, foreign_key: true
+      t.references :resolver, foreign_key: true
       t.string :status
       t.timestamp :resolve_time
 
