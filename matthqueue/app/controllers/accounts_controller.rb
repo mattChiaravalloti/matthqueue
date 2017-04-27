@@ -12,6 +12,7 @@ class AccountsController < ApplicationController
 
   # GET /accounts/new
   def new
+    @institutions = Institution.all.map { |i| i.name }
     @account = Account.new
   end
 
