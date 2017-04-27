@@ -18,11 +18,11 @@ Rails.application.routes.draw do
     end
     resources :oh_time_slots, only: [:create, :show] do
       member do
-        post :launch_queue
+        get :launch_queue
       end
       resources :oh_queues, only: [:show] do
         member do
-          post :end_queue
+          get :end_queue
         end
         resources :questions, only: [:create, :update, :destroy]
       end

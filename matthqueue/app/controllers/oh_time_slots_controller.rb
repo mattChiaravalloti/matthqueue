@@ -26,17 +26,30 @@ class OhTimeSlotsController < ApplicationController
   end
 
   def launch_queue
-    @queue = OhQueue.create(
-      active: true, # active upon creation
-      last_postition: 1, # first question in the queue is "question 1",
-      start_time: Time.now.utc,
-      oh_time_slot: @oh_time_slot
-    )
-
-    if @queue.save
-      redirect_to @queue, notice: 'Queue successfully launched.'
+    @course = Course.find(params[:course_id])
+    if @oh_time_slot.queue_active?
+      redirect_to course_oh_time_slot_oh_queue_path(
+        @course,@oh_time_slot,@oh_time_slot.active_queue
+      ), alert: 'Queue already active!'
     else
-      redirect_to @oh_time_slot, alert: 'Failed to launch queue!'
+      if @course.instructors.include? current_account
+        @queue = OhQueue.create(
+          active: true, # active upon creation
+          last_position: 1, # first question in the queue is "question 1",
+          start_time: Time.now.utc,
+          oh_time_slot: @oh_time_slot
+        )
+
+        if @queue.save
+          redirect_to course_oh_time_slot_oh_queue_path(
+            @course,@oh_time_slot,@oh_time_slot.active_queue
+          ), notice: 'Queue successfully launched.'
+        else
+          redirect_to @course, alert: 'Failed to launch queue!'
+        end
+      else
+        redirect_to @course, alert: 'Students cannot launch the queue!'
+      end
     end
   end
 

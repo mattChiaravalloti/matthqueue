@@ -11,11 +11,13 @@
         <%= link_to @course.name, @course %>
         <%= @oh_time_slot.start_time.strftime("%A") %>
         <%= @oh_time_slot.frequency %> Office Hours
+        <% if is_instructor && @oh_queue.active %>
+          <div style="float:right">
+            <%= link_to 'End Queue', end_queue_course_oh_time_slot_oh_queue_path, class: 'btn btn-danger' %>
+          </div>
+        <% end %>
       </h3>
 
-      <% if is_instructor %>
-        <%= link_to 'End Queue', end_queue_course_oh_time_slot_oh_queue_path, class: 'btn btn-danger' %>
-      <% end %>
       <hr>
     </div>
   </div>

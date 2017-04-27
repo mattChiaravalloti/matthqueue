@@ -8,17 +8,28 @@ class OhQueuesController < ApplicationController
   end
 
   def end_queue
-    @course = Course.find(params[:couse_id])
+    if @oh_queue.active
+      @course = Course.find(params[:course_id])
+      @oh_time_slot = OhTimeSlot.find(params[:oh_time_slot_id])
 
-    if @course.instructors.include? current_account
-      @oh_queue.active = false
-      if @oh_queue.save
-        redirect_to @oh_queue, notice: 'Queue has been closed.'
+      if @course.instructors.include? current_account
+        @oh_queue.active = false
+        @oh_queue.end_time = Time.now.utc
+        if @oh_queue.save
+          redirect_to course_oh_time_slot_oh_queue_path(
+            @course,@oh_time_slot,@oh_queue), notice: 'Queue has been closed.'
+        else
+          redirect_to course_oh_time_slot_oh_queue_path(
+            @course,@oh_time_slot,@oh_queue), alert: 'Problem closing queue!'
+        end
       else
-        redirect_to @oh_queue, alert: 'Problem closing queue!'
+        redirect_to course_oh_time_slot_oh_queue_path(
+          @course,@oh_time_slot,@oh_queue
+        ), alert: 'Only instructors can close a queue!'
       end
     else
-      redirect_to @oh_queue, alert: 'Only instructors can close the queue!'
+      redirect_to course_oh_time_slot_oh_queue_path(
+        @course,@oh_time_slot,@oh_queue), notice: 'Queue already closed.'
     end
   end
 
