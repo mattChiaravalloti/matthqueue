@@ -158,18 +158,18 @@
                   </h3>
                 <% else %>
                   <% if is_instructor %>
-                    <h4>
+                    <h3>
                       <%= start_time %>:
                       <%= link_to 'Launch Queue', launch_queue_course_oh_time_slot_path(slot) %>
-                    </h4>
+                    </h3>
                   <% else %>
-                    <h4>Office Hours are active, but the queue has not yet been created.</h4>
+                    <h3>Office Hours are active, but the queue has not yet been created.</h3>
                   <% end %>
                 <% end %>
               <% else %>
-                <h4>
+                <h3>
                   There will be office hours in about <%= pluralize((diff_in_secs / 60).round(0), 'minute') %>
-                </h4>
+                </h3>
               <% end%>
             <% else %>
               <% msg = 'No more office hours today!' %>
@@ -219,6 +219,7 @@
             <h3>Add new Office Hours</h3>
             <%= form_tag(course_oh_time_slots_path(@course), method: 'post', class: 'form-horizontal') do %>
               <%= hidden_field_tag :'oh_time_slot[course_id]', @course.id %>
+              <%= hidden_field_tag :'oh_time_slot[timezone]', Time.now.getlocal.zone %>
               <div class="form-group">
                 <%= label_tag :'oh_time_slot[start_time]', 'Start:', class: 'col-md-2 control-label' %>
                 <div class='col-md-9'>

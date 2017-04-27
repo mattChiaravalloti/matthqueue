@@ -12,7 +12,7 @@ class OhTimeSlotsController < ApplicationController
   # POST /oh_time_slots
   def create
     @course = Course.find(params[:course_id])
-    start_time = DateTime.parse(oh_time_slot_params[:start_time].first)
+    start_time = DateTime.parse(oh_time_slot_params[:start_time].first).to_time - Time.zone_offset(oh_time_slot_params[:timezone])
 
     @oh_time_slot = OhTimeSlot.new(
       frequency: oh_time_slot_params[:frequency],
