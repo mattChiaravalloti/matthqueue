@@ -66,4 +66,10 @@ class OhQueue < ApplicationRecord
   def resolved_questions
     self.questions.select { |q| q.status == 'resolved' }
   end
+
+  def unresolved_question_for(student)
+    self.questions.select do |q|
+      q.student == student && q.status == 'unresolved'
+    end.first
+  end
 end

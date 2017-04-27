@@ -1,5 +1,6 @@
 <tr class="<%= row_class %>">
   <td style="vertical-align:middle"><%= q.position %></td>
+  <td style="vertical-align:middle"><%= q.student.name %></td>
   <td style="vertical-align:middle"><%= q.title %></td>
   <td style="vertical-align:middle"><%= q.body %></td>
   <td style="vertical-align:middle"><%= q.status %></td>
@@ -15,7 +16,7 @@
       </div>
     <% end %>
   </td>
-  <td style="vertical-align:middle">
-    <%= link_to 'Destroy', course_oh_time_slot_oh_queue_question_path(c, oh, ohq, q), method: :delete, data: { confirm: 'Are you sure?' } %>
+  <td>
+    <%= link_to 'Destroy', course_oh_time_slot_oh_queue_question_path(c, oh, ohq, q), method: :delete, data: { classonfirm: 'Are you sure?' } %>
   </td>
 </tr>

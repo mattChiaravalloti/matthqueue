@@ -19,6 +19,10 @@ class QuestionsController < ApplicationController
   # PATCH/PUT /questions/1
   def update
     @question.status = question_params[:status]
+    if @question.status == 'resolved'
+      @question.resolve_time = Time.now.utc
+      @question.resolver = current_user
+    end
     if @question.save
       redirect_to course_oh_time_slot_oh_queue_path(
         @course,@oh_time_slot,@oh_queue

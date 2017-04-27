@@ -38,10 +38,12 @@
               <thead>
                 <tr>
                   <th>Position</th>
+                  <th>Student</th>
                   <th>Title</th>
                   <th>Details</th>
                   <th>Status</th>
-                  <th colspan='2'></th>
+                  <th></th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -63,7 +65,8 @@
                   <th>Title</th>
                   <th>Details</th>
                   <th>Status</th>
-                  <th colspan='2'></th>
+                  <th></th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -76,6 +79,83 @@
         </div>
       </div>
     <% else %>
+      <div class="col-md-4">
+        <div class="panel panel-info">
+          <div class="panel-heading">Queue Info</div>
+          <div class="panel-body">
+            <table class="table">
+              <tr>
+                <td align="right"><strong># Questions So Far</strong></td>
+                <td align="left"><%= @oh_queue.questions.length %></td>
+                <td> &nbsp; </td>
+                <td> &nbsp; </td>
+                <td> &nbsp; </td>
+                <td> &nbsp; </td>
+              </tr>
+              <tr>
+                <td align="right"><strong># Pending Questions</strong></td>
+                <td align="left"><%= @oh_queue.unresolved_questions.length %></td>
+                <td> &nbsp; </td>
+                <td> &nbsp; </td>
+                <td> &nbsp; </td>
+                <td> &nbsp; </td>
+              </tr>
+              <tr>
+                <td align="right"><strong>Avg. Wait Time (m)</strong></td>
+                <td align="left"><%= (@oh_queue.avg_wait_time / 60).round(2) %></td>
+                <td> &nbsp; </td>
+                <td> &nbsp; </td>
+              </tr>
+              <tr>
+                <td align="right"><strong>Normal Wait Time for these Office Hours (m)</strong></td>
+                <td align="left"><%= (@oh_time_slot.avg_wait_time / 60).round(2) %></td>
+                <td> &nbsp; </td>
+                <td> &nbsp; </td>
+                <td> &nbsp; </td>
+                <td> &nbsp; </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <% current_question = @oh_queue.unresolved_question_for(current_account) %>
+        <% if current_question.nil? %>
+          form to make question coming soon...
+        <% else %>
+          <div class="panel panel-danger">
+            <div class="panel-heading">Current Question</div>
+            <div class="panel-body"> 
+              <table class="table">
+                <tr>
+                  <td align="right"><strong>Position in Queue</strong></td>
+                  <td align="left"><%= current_question.position %></td>
+                <td> &nbsp; </td>
+                <td> &nbsp; </td>
+                </tr>
+                <tr>
+                  <td align="right"><strong>Question</strong></td>
+                  <td align="left"><%= current_question.title %></td>
+                <td> &nbsp; </td>
+                <td> &nbsp; </td>
+                </tr>
+                <tr>
+                  <td align="right"><strong>Details</strong></td>
+                  <td align="left"><%= current_question.body %></td>
+                <td> &nbsp; </td>
+                <td> &nbsp; </td>
+                </tr>
+                <tr>
+                  <td align="right"><strong>Approximate Expected Resolution Time</strong></td>
+                  <td align="left"><%= ((current_question.created_at + @oh_time_slot.avg_wait_time) + Time.zone_offset(Time.now.getlocal.zone)).to_formatted_s(:long) %></td>
+                <td> &nbsp; </td>
+                <td> &nbsp; </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        <% end %>
+      </div>
     <% end %>
   </div>
 <% else %>
