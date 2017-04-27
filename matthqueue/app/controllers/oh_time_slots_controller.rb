@@ -29,7 +29,7 @@ class OhTimeSlotsController < ApplicationController
     @queue = OhQueue.create(
       active: true, # active upon creation
       last_postition: 1, # first question in the queue is "question 1",
-      start_time: Time.now.utc
+      start_time: Time.now.utc,
       oh_time_slot: @oh_time_slot
     )
 

@@ -1,1 +1,4 @@
-<p id="notice"><%= notice %></p>
+<% if logged_in? %>
+  <p id="notice"><%= notice %></p>
+  <p id="alert"><%= alert %></p>
+<% end %>
