@@ -145,7 +145,7 @@
           <% found = false %>
           <% @course.oh_time_slots.select{ |slot| slot.start_time.today? }.each do |slot| %>
             <% start_time =
-              (slot.start_time + Time.zone_offset(Time.now.getlocal.zone)).to_formatted_s(:long) %>
+              (slot.start_time + Time.zone_offset('DST')).to_formatted_s(:long) %>
             <% end_time = slot.end_time.time %>
             <% if end_time > rn %>
               <% found = true %>
@@ -196,7 +196,7 @@
             <tbody>
               <% @course.oh_time_slots.each do |slot| %>
                 <% start_time =
-                  (slot.start_time + Time.zone_offset(Time.now.getlocal.zone)).to_formatted_s(:long) %>
+                  (slot.start_time + Time.zone_offset('DST')).to_formatted_s(:long) %>
                 <tr>
                   <td>
                     <% if is_instructor %>
@@ -219,7 +219,7 @@
             <h3>Add new Office Hours</h3>
             <%= form_tag(course_oh_time_slots_path(@course), method: 'post', class: 'form-horizontal') do %>
               <%= hidden_field_tag :'oh_time_slot[course_id]', @course.id %>
-              <%= hidden_field_tag :'oh_time_slot[timezone]', Time.now.getlocal.zone %>
+              <%= hidden_field_tag :'oh_time_slot[timezone]', 'DST' %>
               <div class="form-group">
                 <%= label_tag :'oh_time_slot[start_time]', 'Start:', class: 'col-md-2 control-label' %>
                 <div class='col-md-9'>
