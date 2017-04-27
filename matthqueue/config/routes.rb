@@ -1,9 +1,8 @@
 Rails.application.routes.draw do
   root 'welcome#index'
 
-  # accounts and institutions
+  # accounts
   resources :accounts, only: [:new, :create, :show, :edit, :update, :destroy]
-  resources :institutions
 
   # login paths
   get 'login' => 'sessions#new'
@@ -17,10 +16,18 @@ Rails.application.routes.draw do
     member do
       post :add_instructor
     end
-    resources :oh_time_slots, only: [:create, :show, :edit, :update, :destroy]
+    resources :oh_time_slots, only: [:create, :show, :edit, :update, :destroy] do
+      member do
+        post :launch_queue
+      end
+      resources :oh_queues, only: [:create, :show, :update]
+    end
   end
   post 'create_course' => 'courses#create'
   post 'enroll_course' => 'courses#enroll'
   post 'drop_course' => 'courses#drop'
+
+  # institutions are last because they are least accessed
+  resources :institutions
 
 end

@@ -13,37 +13,47 @@
 
   <div class="row">
     <div class="col-md-1"></div>
-    <div class="col-md-2">
+    <div class="col-md-3">
       <div class="panel panel-info">
         <div class="panel-heading">Course Info</div>
         <div class="panel-body">
-          <p>
-            <strong>Name:</strong> <%= @course.name %>
-          </p>
-          <p>
-            <strong>Institution:</strong> <%= @course.institution.name %>
-          </p>
-          <p>
-            <strong>Semester:</strong> <%= @course.semester %>
-          </p>
-          <% if is_instructor %>
-            <p>
-              <strong># of Students:</strong> <%= @course.students.length %>
-            </p>
-            <p>
-              <strong># of Past Queues:</strong> <%= @course.oh_queues.length %>
-            </p>
-          <% else %>
-            <p>
-              <strong>Personal Avg. Wait Time (m):</strong> <%= @course.avg_wait_time_for(current_account) %>
-            </p>
-            <p>
-              <strong>Lifetime Wait Time (m):</strong> <%= @course.lifetime_wait_time_for(current_account) %>
-            </p>
-          <% end %>
-          <p>
-            <strong>Avg. Wait Time (m):</strong> <%= (@course.avg_wait_time / 60).round(2) %>
-          </p>
+          <table class="table">
+            <tr>
+              <td align="right"><strong>Name</strong></td>
+              <td align="left"><%= @course.name %></td>
+            </tr>
+            <tr>
+              <td align="right"><strong>Institution</strong></td>
+              <td align="left"><%= @course.institution.name %></td>
+            </tr>
+            <tr>
+              <td align="right"><strong>Semester</strong></td>
+              <td align="left"><%= @course.semester %></td>
+            </tr>
+            <% if is_instructor %>
+              <tr>
+                <td align="right"><strong># of Students</strong></td>
+                <td align="left"><%= @course.students.length %></td>
+              </tr>
+              <tr>
+                <td align="right"><strong># of Past Queues</strong></td>
+                <td align="left"><%= @course.oh_queues.length %></td>
+              </tr>
+            <% else %>
+              <tr>
+                <td align="right"><strong>Personal Avg. Wait Time (m)</strong></td>
+                <td align="left"><%= @course.avg_wait_time_for(current_account) %></td>
+              </tr>
+              <tr>
+                <td align="right"><strong>Lifetime Wait Time (m)</strong></td>
+                <td align="left"><%= @course.lifetime_wait_time_for(current_account) %></td>
+              </tr>
+            <% end %>
+            <tr>
+              <td align="right"><strong>Avg. Wait Time (m)</strong></td>
+              <td align="left"><%= (@course.avg_wait_time / 60).round(2) %></td>
+            </tr>
+          </table>
 
           <hr>
           <% if current_account.professor %>
@@ -108,12 +118,14 @@
               <thead>
                 <tr>
                   <th>Title</th>
+                  <th>Wait Time (m)</th>
                 </tr>
               </thead>
               <tbody>
                 <% @course.questions_for(current_account).each do |question| %>
                   <tr>
                     <td><%= question.title %></td>
+                    <td><%= (question.wait_time / 60).round(2) %></td>
                   </tr>
                 <% end %>
               </tbody>
@@ -122,7 +134,7 @@
         </div>
       <% end %>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-7">
       <div class="panel panel-danger">
         <div class="panel-heading">Queues</div>
         <div class="panel-body">
@@ -130,14 +142,32 @@
           <% msg = 'No office hours today!' %>
           <% found = false %>
           <% @course.oh_time_slots.select{ |slot| slot.start_time.today? }.each do |slot| %>
+            <% start_time =
+              (slot.start_time + Time.zone_offset(Time.now.getlocal.zone)).to_formatted_s(:long) %>
             <% end_time = slot.end_time.time %>
             <% if end_time > rn %>
               <% found = true %>
               <% diff_in_secs = rn - slot.start_time.time %>
               <% if diff_in_secs >= 0 %>
-                <p>There is a live OH slot rn rn!</p>
+                <% if slot.queue_active? %>
+                  <h3>
+                    <%= start_time %>:
+                    <%= link_to 'Live Queue', course_oh_time_slot_oh_queue_path(slot, slot.active_queue) %>
+                  </h3>
+                <% else %>
+                  <% if is_instructor %>
+                    <h4>
+                      <%= start_time %>:
+                      <%= link_to 'Launch Queue', launch_queue_course_oh_time_slot_path(slot) %>
+                    </h4>
+                  <% else %>
+                    <h4>Office Hours are active, but the queue has not yet been created.</h4>
+                  <% end %>
+                <% end %>
               <% else %>
-                <p>There will be office hours in <%= (diff_in_secs / 60).round(2) %> minutes</p>
+                <h4>
+                  There will be office hours in about <%= pluralize((diff_in_secs / 60).round(0), 'minute') %>
+                </h4>
               <% end%>
             <% else %>
               <% msg = 'No more office hours today!' %>
@@ -148,8 +178,6 @@
           <% end %>
         </div>
       </div>
-    </div>
-    <div class="col-md-5">
       <div class="panel panel-default">
         <div class="panel-heading">Office Hours Timeslots</div>
         <div class="panel-body" style="height:200px;overflow-y:scroll">
@@ -160,7 +188,7 @@
                 <th>Next Start Time</th>
                 <th>Duration (h)</th>
                 <th>Frequency</th>
-                <th>Avg. Wait Time(m)</th>
+                <th>Avg. Wait Time (m)</th>
               </tr>
             </thead>
             <tbody>
