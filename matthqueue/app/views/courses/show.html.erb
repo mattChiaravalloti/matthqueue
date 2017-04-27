@@ -1,4 +1,5 @@
 <% if logged_in? %>
+  <% is_instructor = @course.instructors.include? current_account %>
   <p id="notice"><%= notice %></p>
   <p id="alert"><%= alert %></p>
 
@@ -10,38 +11,47 @@
     </div>
   </div>
 
-  <% if @course.instructors.include? current_account %>
-    <div class="row">
-      <div class="col-md-1"></div>
-      <div class="col-md-2">
-        <div class="panel panel-info">
-          <div class="panel-heading">Course Info</div>
-          <div class="panel-body">
-            <p>
-              <strong>Name:</strong> <%= @course.name %>
-            </p>
-            <p>
-              <strong>Institution:</strong> <%= @course.institution.name %>
-            </p>
-            <p>
-              <strong>Semester:</strong> <%= @course.semester %>
-            </p>
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-2">
+      <div class="panel panel-info">
+        <div class="panel-heading">Course Info</div>
+        <div class="panel-body">
+          <p>
+            <strong>Name:</strong> <%= @course.name %>
+          </p>
+          <p>
+            <strong>Institution:</strong> <%= @course.institution.name %>
+          </p>
+          <p>
+            <strong>Semester:</strong> <%= @course.semester %>
+          </p>
+          <% if is_instructor %>
             <p>
               <strong># of Students:</strong> <%= @course.students.length %>
             </p>
             <p>
               <strong># of Past Queues:</strong> <%= @course.oh_queues.length %>
             </p>
+          <% else %>
             <p>
-              <strong>Avg. Wait Time (m):</strong> <%= (@course.avg_wait_time / 60).round(2) %>
+              <strong>Personal Avg. Wait Time (m):</strong> <%= @course.avg_wait_time_for(current_account) %>
             </p>
+            <p>
+              <strong>Lifetime Wait Time (m):</strong> <%= @course.lifetime_wait_time_for(current_account) %>
+            </p>
+          <% end %>
+          <p>
+            <strong>Avg. Wait Time (m):</strong> <%= (@course.avg_wait_time / 60).round(2) %>
+          </p>
 
-            <hr>
-            <% if current_account.professor %>
-              <%= link_to 'Destroy', @course, method: :delete, data: { confirm: 'Are you sure?' } %>
-            <% end %>
-          </div>
+          <hr>
+          <% if current_account.professor %>
+            <%= link_to 'Destroy', @course, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <% end %>
         </div>
+      </div>
+      <% if is_instructor %>
         <div class="panel panel-success">
           <div class="panel-heading">
             Instructors -
@@ -85,62 +95,95 @@
             <% end %>
           </div>
         </div>
-      </div>
-      <div class="col-md-3">
-        <div class="panel panel-danger">
-          <div class="panel-heading">Queues</div>
-          <div class="panel-body">
-            <% rn = Time.now.utc %>
-            <% msg = 'No office hours today!' %>
-            <% found = false %>
-            <% @course.oh_time_slots.select{ |slot| slot.start_time.today? }.each do |slot| %>
-              <% end_time = slot.end_time.time %>
-              <% if end_time > rn %>
-                <% found = true %>
-                <% diff_in_secs = rn - slot.start_time.time %>
-                <% if diff_in_secs >= 0 %>
-                  <p>There is a live OH slot rn rn!</p>
-                <% else %>
-                  <p>There will be office hours in <%= (diff_in_secs / 60).round(2) %> minutes</p>
-                <% end%>
-              <% else %>
-                <% msg = 'No more office hours today!' %>
-              <% end %>
-            <% end %>
-            <% if !found %>
-              <p><%= msg %></p>
-            <% end %>
+      <% else %>
+        <div class="panel panel-success">
+          <div class="panel-heading">
+            Previous Questions -
+            <small>
+              <%= pluralize(@course.questions_for(current_account).length, 'Questions') %>
+            </small> -
           </div>
-        </div>
-      </div>
-      <div class="col-md-5">
-        <div class="panel panel-default">
-          <div class="panel-heading">Office Hours Timeslots</div>
-          <div class="panel-body" style="height:200px;overflow-y:scroll">
-            <h3>Scheduled Office Hours</h3>
+          <div class="panel-body" style="height:150px;overflow-y:scroll">
             <table class="table table-hover">
               <thead>
                 <tr>
-                  <th>Next Start Time</th>
-                  <th>Duration (h)</th>
-                  <th>Frequency</th>
-                  <th>Avg. Wait Time(m)</th>
+                  <th>Title</th>
                 </tr>
               </thead>
               <tbody>
-                <% @course.oh_time_slots.each do |slot| %>
+                <% @course.questions_for(current_account).each do |question| %>
                   <tr>
-                    <td>
-                      <%= (slot.start_time + Time.zone_offset(Time.now.getlocal.zone)).to_formatted_s(:long) %>
-                    </td>
-                    <td><%= ((slot.end_time - slot.start_time) / 3600).to_i %></td>
-                    <td><%= slot.frequency %></td>
-                    <td><%= (slot.avg_wait_time / 60).round(2) %></td>
+                    <td><%= question.title %></td>
                   </tr>
                 <% end %>
               </tbody>
             </table>
           </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-md-3">
+      <div class="panel panel-danger">
+        <div class="panel-heading">Queues</div>
+        <div class="panel-body">
+          <% rn = Time.now.utc %>
+          <% msg = 'No office hours today!' %>
+          <% found = false %>
+          <% @course.oh_time_slots.select{ |slot| slot.start_time.today? }.each do |slot| %>
+            <% end_time = slot.end_time.time %>
+            <% if end_time > rn %>
+              <% found = true %>
+              <% diff_in_secs = rn - slot.start_time.time %>
+              <% if diff_in_secs >= 0 %>
+                <p>There is a live OH slot rn rn!</p>
+              <% else %>
+                <p>There will be office hours in <%= (diff_in_secs / 60).round(2) %> minutes</p>
+              <% end%>
+            <% else %>
+              <% msg = 'No more office hours today!' %>
+            <% end %>
+          <% end %>
+          <% if !found %>
+            <p><%= msg %></p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="panel panel-default">
+        <div class="panel-heading">Office Hours Timeslots</div>
+        <div class="panel-body" style="height:200px;overflow-y:scroll">
+          <h3>Scheduled Office Hours</h3>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Next Start Time</th>
+                <th>Duration (h)</th>
+                <th>Frequency</th>
+                <th>Avg. Wait Time(m)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @course.oh_time_slots.each do |slot| %>
+                <% start_time =
+                  (slot.start_time + Time.zone_offset(Time.now.getlocal.zone)).to_formatted_s(:long) %>
+                <tr>
+                  <td>
+                    <% if is_instructor %>
+                      <%= link_to start_time, course_oh_time_slot_path(slot) %>
+                    <% else %>
+                      <%= start_time %>
+                    <% end %>
+                  </td>
+                  <td><%= ((slot.end_time - slot.start_time) / 3600).to_i %></td>
+                  <td><%= slot.frequency %></td>
+                  <td><%= (slot.avg_wait_time / 60).round(2) %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+        <% if is_instructor %>
           <div class="panel-body">
             <hr>
             <h3>Add new Office Hours</h3>
@@ -171,12 +214,10 @@
               </div>
             <% end %>
           </div>
-        </div>
+        <% end %>
       </div>
     </div>
-  <% else %>
-
-  <% end %>
+  </div>
 <% else %>
   <p>To view this course, please sign in:</p>
   <%= link_to 'Sign In', login_path %>

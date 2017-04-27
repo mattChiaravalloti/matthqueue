@@ -19,4 +19,8 @@ class OhTimeSlot < ApplicationRecord
       0
     end
   end
+
+  def active_queue
+    self.oh_queues.where(:active=>true).first
+  end
 end
