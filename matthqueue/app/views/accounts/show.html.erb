@@ -17,9 +17,7 @@
       <div class="col-md-4">
         <%= render 'info', account: @account %>
       </div>
-      <div class="col-md-1">
-      </div>
-      <div class="col-md-4">
+      <div class="col-md-5">
         <div class="panel panel-default">
           <div class="panel-heading">Create New Course</div>
           <div class="panel-body">
@@ -71,26 +69,6 @@
       </div>
       <div class="col-md-4">
         <%= render 'info', account: @account %>
-      </div>
-      <div class="col-md-1">
-      </div>
-      <div class="col-md-4">
-        <div class="panel panel-default">
-          <div class="panel-heading">Enrolled Courses</div>
-          <div class="panel-body">
-            <%= render 'courses/table', courses: @account.enrolled_courses,
-              account: @account, droppable: true, destroyable: false %>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-1">
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-1">
-      </div>
-      <div class="col-md-4">
         <% if @account.instructed_courses.length != 0 %>
           <div class="panel panel-success">
             <div class="panel-heading">Instructed Courses</div>
@@ -101,10 +79,15 @@
           </div>
         <% end %>
       </div>
-      <div class="col-md-1">
-      </div>
-      <div class="col-md-4">
-        <div class="panel panel-warning">
+      <div class="col-md-5">
+        <div class="panel panel-danger">
+          <div class="panel-heading">Enrolled Courses</div>
+          <div class="panel-body">
+            <%= render 'courses/table', courses: @account.enrolled_courses,
+              account: @account, droppable: true, destroyable: false %>
+          </div>
+        </div>
+        <div class="panel panel-default">
           <div class="panel-heading">Enroll in New Course</div>
           <div class="panel-body">
             <%= form_tag(enroll_course_path, method: 'post', class: 'form-horizontal') do %>
@@ -132,7 +115,6 @@
           </div>
         </div>
       </div>
-      <div class="col-md-1">
       </div>
     </div>
   <% end %>

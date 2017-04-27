@@ -57,7 +57,9 @@
 
           <hr>
           <% if current_account.professor %>
-            <%= link_to 'Destroy', @course, method: :delete, data: { confirm: 'Are you sure?' } %>
+            <div class="text-center">
+              <%= link_to 'Destroy', @course, method: :delete, data: { confirm: 'Are you sure?' } %>
+            </div>
           <% end %>
         </div>
       </div>

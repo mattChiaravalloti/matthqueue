@@ -1,17 +1,24 @@
 <div class="panel panel-info">
   <div class="panel-heading">Account Info</div>
   <div class="panel-body">
-    <p>
-      <strong>Name:</strong> <%= account.name %>
-    </p>
-    <p>
-      <strong>Email:</strong> <%= account.email %>
-    </p>
-    <p>
-      <strong>Institution:</strong> <%= account.institution.name %>
-    </p>
+    <table class="table">
+      <tr>
+        <td align='right'><strong>Name:</strong></td>
+        <td align='left'><%= account.name %></td>
+      </tr>
+      <tr>
+        <td align='right'><strong>Email:</strong></td>
+        <td align='left'><%= account.email %></td>
+      </tr>
+      <tr>
+        <td align='right'><strong>Institution:</strong></td>
+        <td align='left'><%= account.institution.name %></td>
+      </tr>
+    </table>
     <hr>
-    <%= link_to 'Edit', edit_account_path(account) %> |
-    <%= link_to 'Destroy', account, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <div class="text-center">
+      <%= link_to 'Edit', edit_account_path(account) %> |
+      <%= link_to 'Destroy', account, method: :delete, data: { confirm: 'Are you sure?' } %>
+    </div>
   </div>
 </div>
