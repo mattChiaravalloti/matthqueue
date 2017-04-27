@@ -14,75 +14,83 @@
     <div class="row">
       <div class="col-md-1"></div>
       <div class="col-md-2">
-        <div class="row">
-          <div class="panel panel-info">
-            <div class="panel-heading">Course Info</div>
-            <div class="panel-body">
-              <p>
-                <strong>Name:</strong> <%= @course.name %>
-              </p>
-              <p>
-                <strong>Institution:</strong> <%= @course.institution.name %>
-              </p>
-              <p>
-                <strong>Semester:</strong> <%= @course.semester %>
-              </p>
-              <p>
-                <strong># of Students:</strong> <%= @course.students.length %>
-              </p>
-              <p>
-                <strong># of Past Queues:</strong> <%= @course.oh_queues.length %>
-              </p>
-              <p>
-                <strong>Avg. Wait Time (m):</strong> <%= (@course.avg_wait_time / 60).round(2) %>
-              </p>
+        <div class="panel panel-info">
+          <div class="panel-heading">Course Info</div>
+          <div class="panel-body">
+            <p>
+              <strong>Name:</strong> <%= @course.name %>
+            </p>
+            <p>
+              <strong>Institution:</strong> <%= @course.institution.name %>
+            </p>
+            <p>
+              <strong>Semester:</strong> <%= @course.semester %>
+            </p>
+            <p>
+              <strong># of Students:</strong> <%= @course.students.length %>
+            </p>
+            <p>
+              <strong># of Past Queues:</strong> <%= @course.oh_queues.length %>
+            </p>
+            <p>
+              <strong>Avg. Wait Time (m):</strong> <%= (@course.avg_wait_time / 60).round(2) %>
+            </p>
 
-              <hr>
-              <% if current_account.professor %>
-                <%= link_to 'Destroy', @course, method: :delete, data: { confirm: 'Are you sure?' } %>
-              <% end %>
-            </div>
+            <hr>
+            <% if current_account.professor %>
+              <%= link_to 'Destroy', @course, method: :delete, data: { confirm: 'Are you sure?' } %>
+            <% end %>
           </div>
-          <div class="panel panel-success">
-            <div class="panel-heading">
-              Instructors -
-              <small>
-                <%= pluralize(@course.professors.length, 'Professor') %>  |
-                <%= pluralize(@course.tas.length, 'TA', 'TAs') %>
-              </small> -
-            </div>
-            <div class="panel-body" style="height:200px;overflow-y:scroll">
-              <table class="table table-hover">
-                <thead>
+        </div>
+        <div class="panel panel-success">
+          <div class="panel-heading">
+            Instructors -
+            <small>
+              <%= pluralize(@course.professors.length, 'Professor') %>  |
+              <%= pluralize(@course.tas.length, 'TA', 'TAs') %>
+            </small> -
+          </div>
+          <div class="panel-body" style="height:150px;overflow-y:scroll">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Role</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @course.instructors.each do |instructor| %>
                   <tr>
-                    <th>Name</th>
-                    <th>Role</th>
+                    <td><%= instructor.name %></td>
+                    <% if instructor.professor %>
+                      <td>Professor</td>
+                    <% else %>
+                      <td>TA</td>
+                    <% end %>
                   </tr>
-                </thead>
-                <tbody>
-                  <% @course.instructors.each do |instructor| %>
-                    <tr>
-                      <td><%= instructor.name %></td>
-                      <% if instructor.professor %>
-                        <td>Professor</td>
-                      <% else %>
-                        <td>TA</td>
-                      <% end %>
-                    </tr>
-                  <% end %>
-                </tbody>
-              </table>
-            </div>
-            <div class="panel-body">
-              <%= form_tag(add_instructor_course_path, method: 'post') do %>
-                <div class="form-group">
-                  <%= email_field_tag :instructor_email, nil, class: 'form-control', placeholder: 'Instructor email' %>
-                </div>
-                <div class="form-group text-center">
-                  <%= submit_tag 'Add Instructor', class: 'btn btn-sm btn-default' %>
-                </div>
-              <% end %>
-            </div>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+          <div class="panel-body">
+            <hr>
+            <h4>Add new Instructor</h4>
+            <%= form_tag(add_instructor_course_path, method: 'post') do %>
+              <div class="form-group">
+                <%= email_field_tag :instructor_email, nil, class: 'form-control', placeholder: 'Instructor email' %>
+              </div>
+              <div class="form-group text-center">
+                <%= submit_tag 'Add Instructor', class: 'btn btn-sm btn-default' %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="panel panel-danger">
+          <div class="panel-heading">Queues</div>
+          <div class="panel-body">
+            coming soon..
           </div>
         </div>
       </div>
@@ -113,6 +121,8 @@
             </table>
           </div>
           <div class="panel-body">
+            <hr>
+            <h3>Add new Office Hours</h3>
             <%= form_tag(course_oh_time_slots_path(@course), method: 'post', class: 'form-horizontal') do %>
               <%= hidden_field_tag :'oh_time_slot[course_id]', @course.id %>
               <div class="form-group">
