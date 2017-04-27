@@ -15,7 +15,12 @@ class OhQueuesController < ApplicationController
       if @course.instructors.include? current_account
         @oh_queue.active = false
         @oh_queue.end_time = Time.now.utc
-        if @oh_queue.save
+        if @oh_time_slot.frequency == 'Daily'
+          @oh_time_slot.start_time = @oh_time_slot.start_time + (24 * 3600)
+        elsif @oh_time_slot.frequency == 'Weekly'
+          @oh_time_slot.start_time = @oh_time_slot.start_time + (7 * 24 * 3600)
+        end
+        if @oh_queue.save && @oh_time_slot.save
           redirect_to course_oh_time_slot_oh_queue_path(
             @course,@oh_time_slot,@oh_queue), notice: 'Queue has been closed.'
         else

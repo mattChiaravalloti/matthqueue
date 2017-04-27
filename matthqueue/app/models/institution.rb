@@ -16,5 +16,6 @@ class Institution < ApplicationRecord
   def password=(new_password)
     @password = Password.create(new_password)
     self.password_hash = @password
+    save!
   end
 end

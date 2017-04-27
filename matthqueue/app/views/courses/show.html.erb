@@ -168,7 +168,7 @@
                 <% end %>
               <% else %>
                 <h3>
-                  There will be office hours in about <%= pluralize((diff_in_secs / 60).round(0), 'minute') %>
+                  There will be office hours in about <%= pluralize((-1 * diff_in_secs / 60).round(0), 'minute') %>
                 </h3>
               <% end%>
             <% else %>
