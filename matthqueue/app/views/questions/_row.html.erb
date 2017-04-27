@@ -1,9 +1,9 @@
 <tr class="<%= row_class %>">
-  <td><%= q.position %></td>
-  <td><%= q.title %></td>
-  <td><%= q.body %></td>
-  <td><%= q.status %></td>
-  <td>
+  <td style="vertical-align:middle"><%= q.position %></td>
+  <td style="vertical-align:middle"><%= q.title %></td>
+  <td style="vertical-align:middle"><%= q.body %></td>
+  <td style="vertical-align:middle"><%= q.status %></td>
+  <td style="vertical-align:middle">
     <%= form_tag(course_oh_time_slot_oh_queue_question_path(c, oh, ohq, q), method: 'post', class: 'form-inline') do %>
       <div class="form-group">
         <%= select_tag(:'question[status]',
@@ -15,7 +15,7 @@
       </div>
     <% end %>
   </td>
-  <td>
+  <td style="vertical-align:middle">
     <%= link_to 'Destroy', course_oh_time_slot_oh_queue_question_path(c, oh, ohq, q), method: :delete, data: { confirm: 'Are you sure?' } %>
   </td>
 </tr>

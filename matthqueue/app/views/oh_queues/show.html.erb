@@ -44,8 +44,27 @@
               </thead>
               <tbody>
                 <% @oh_queue.unresolved_questions.each do |q| %>
-                  <%= render 'questions/row', c: @course, oh: @oh_time_slot, ohq: @oh_queue, q: q, row_class: '' %>
+                  <% row_class = if q.status == 'unresolved' then 'danger' else '' end %>
+                  <%= render 'questions/row', c: @course, oh: @oh_time_slot, ohq: @oh_queue, q: q, row_class: row_class %>
                 <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">Resolved Questions</div>
+          <div class="panel-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Position</th>
+                  <th>Title</th>
+                  <th>Details</th>
+                  <th>Status</th>
+                  <th colspan='2'></th>
+                </tr>
+              </thead>
+              <tbody>
                 <% @oh_queue.resolved_questions.each do |q| %>
                   <%= render 'questions/row', c: @course, oh: @oh_time_slot, ohq: @oh_queue, q: q, row_class: 'success' %>
                 <% end %>
