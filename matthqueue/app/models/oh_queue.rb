@@ -60,11 +60,11 @@ class OhQueue < ApplicationRecord
   end
 
   def unresolved_questions
-    self.questions.select { |q| q.status != 'resolved' }
+    self.questions.order(:position).select { |q| q.status != 'resolved' }
   end
 
   def resolved_questions
-    self.questions.select { |q| q.status == 'resolved' }
+    self.questions.order(:position).select { |q| q.status == 'resolved' }
   end
 
   def unresolved_question_for(student)
