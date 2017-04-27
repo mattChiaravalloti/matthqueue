@@ -9,10 +9,9 @@
     <div class="col-md-1"></div>
     <div class="col-md-10">
       <h3>
-        <%= @course.name %>:
+        <%= link_to @course.name, @course %>:
         <%= @oh_time_slot.start_time.strftime("%A") %>
         <%= @oh_time_slot.frequency %> Office Hours
-        <small><%= link_to 'Edit', edit_course_oh_time_slot_path(@oh_time_slot) %></small>
       </h3>
       <h4>- Next Start Time: <%= start_time %> -</h4>
       
