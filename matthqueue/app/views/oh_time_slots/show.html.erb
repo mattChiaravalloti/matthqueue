@@ -78,7 +78,11 @@
                     <%= link_to q_start_time, course_oh_time_slot_oh_queue_path(@course, @oh_time_slot, q)
                     %>
                   </td>
-                  <td><%= (q.end_time - 14400).to_formatted_s(:long) %></td>
+                  <% unless q.end_time.nil? %>
+                    <td><%= (q.end_time - 14400).to_formatted_s(:long) %></td>
+                  <% else %>
+                    <td><em>live</em></td>
+                  <% end %>
                   <td><%= q.questions.length %></td>
                   <td><%= q.num_unique_students %></td>
                   <td><%= q.num_unique_instructors %></td>

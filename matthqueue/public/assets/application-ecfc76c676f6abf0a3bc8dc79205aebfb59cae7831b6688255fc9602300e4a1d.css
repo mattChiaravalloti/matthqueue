@@ -1,3 +1,22 @@
+/* line 1, /home/ubuntu/matthqueue/matthqueue/app/assets/stylesheets/scaffolds.scss */
+body {
+  background-color: #fff;
+  color: #333;
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+  margin: 33px;
+}
+
+/* line 10, /home/ubuntu/matthqueue/matthqueue/app/assets/stylesheets/scaffolds.scss */
+#notice {
+  color: green;
+}
+
+/* line 14, /home/ubuntu/matthqueue/matthqueue/app/assets/stylesheets/scaffolds.scss */
+#alert {
+  color: red;
+}
 /*
  * This is a manifest file that'll be compiled into application.css, which will include all the files
  * listed below.
@@ -10,9 +29,10 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require_tree .
- *= require_self
+
+
  */
+
 body {
   background-color: #fff;
   color: #333;
