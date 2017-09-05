@@ -26,9 +26,9 @@ class CoursesController < ApplicationController
                     .where(:institution_id=>course_params[:institution_id])
                     .first
     @account = Account.find(params[:student_id])
-    @account.enrolled_courses << @course
+    @account.enrolled_courses << @course unless @course.nil?
 
-    if @course.save && @account.save
+    if !@course.nil? && @course.save && @account.save
       redirect_to @course, notice: "#{@account.name} successfully enrolled."
     else
       redirect_to @account, alert: 'Problem with enrollment!'
