@@ -211,7 +211,7 @@
                 <tr>
                   <td>
                     <% if is_instructor %>
-                      <%= link_to start_time, course_oh_time_slot_path(slot) %>
+                      <%= link_to start_time, course_oh_time_slot_path(@course,slot) %>
                     <% else %>
                       <%= start_time %>
                     <% end %>
